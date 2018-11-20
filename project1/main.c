@@ -4,6 +4,15 @@
 #include "LCD.h"
 #include "spi.h"
 
+//setup P1.5/6/7 to be used with the UCSI
+#define SET_P1SEL_SPI       P1SEL = BIT5 | BIT7
+#define SET_P1SEL2_SPI      P1SEL2 = BIT5 | BIT7
+//reset P1.5/6/7 to be used as GPIO again
+#define RESET_P1SEL_SPI     P1SEL &= ~(BIT5 | BIT7)
+#define RESET_P1SEL2_SPI    P1SEL2 &= ~(BIT5 | BIT7)
+
+
+
 void clock_init(void);
 
 int main(void)
@@ -21,13 +30,13 @@ int main(void)
 
 
 	char analog_temp[7];
-	uint8_t t = 0;
+	uint16_t t = 0;
 
 	while(1)
 	{
 	    __delay_cycles(100000);
 
-	    t = spi_recieve();
+	    get_SPI_temperature();
 
 
 	    scm_decimal2string(analog_temp, 7, analog_t_temperature(), 2);  //write temperature from analog sensor in buffer
@@ -69,6 +78,22 @@ int main(void)
 
 	return 0;
 }
+void get_SPI_temperature()
+{
+    SET_P1SEL_SPI;
+    SET_P1SEL2_SPI;
+
+    uint8_t temp = 0;
+
+    spi_send(0x02);
+    __delay_cycles(150000);
+    temp = spi_recieve();
+
+    RESET_P1SEL_SPI;
+    RESET_P1SEL2_SPI;
+    P1OUT &= ~(BIT5 | BIT7);
+}
+
 void clock_init(void)
 {
     // Set clock registers for frequency of 1 MHz
