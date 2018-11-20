@@ -4,6 +4,7 @@
 #include "LCD.h"
 
 
+
 int main(void)
 {
     WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
