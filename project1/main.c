@@ -3,7 +3,7 @@
 #include "scm.h"
 #include "LCD.h"
 
-
+//fuckinf hell
 
 int main(void)
 {
