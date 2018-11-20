@@ -17,18 +17,24 @@ void spi_init(void)
     //set P1.3 to always high
     P1DIR = BIT3;
     P1OUT = BIT3;
+
+    UCB0CTL1 &= ~UCSWRST; //reset SPI-module to save changes
 }
 
-void spi_write(int8_t trans)
+void spi_send(uint8_t trans)
 {
-    while(UCB0STAT & UCBUSY);
+    P1OUT &= ~BIT3              //turn P1.3 off to initiate Communication; start frame
+
     UCB0TXBUF = trans;          //write byte in transmit buffer
+    while(UCB0STAT & UCBUSY);   //wait while  UCSI is busy...
+
+    P1OUT &= ~BIT3              //turn P1.3 on again; end frame
 }
 
-int8_t spi_read(void)
+uint8_t spi_recieve(void)
 {
-    while(UCB0STAT & UCBUSY);
-    return UCB0RXBUF;
+    while(UCB0STAT & UCBUSY);   //wait while USCI is busy...
+    return UCB0RXBUF;           //return bytes from recieve buffer
 }
 int8_t spi_read_temp(void)
 {
