@@ -3,7 +3,6 @@
 #include "scm.h"
 #include "LCD.h"
 
-//hallo
 
 int main(void)
 {
