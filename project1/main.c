@@ -3,8 +3,6 @@
 #include "scm.h"
 #include "LCD.h"
 
-//fuckinf hell
-//lal
 
 int main(void)
 {
