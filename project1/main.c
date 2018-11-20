@@ -2,6 +2,7 @@
 #include "analog_t.h"
 #include "scm.h"
 #include "LCD.h"
+#include "spi.h"
 
 
 int main(void)
@@ -12,15 +13,19 @@ int main(void)
 	analog_t_adc_init();
 	scm_init();
 	LCD_init();
+	spi_init();
+
+
 
 	LCD_set_col(30);
 	LCD_set_page(0);
 
 	char buffer[10];
-
+	int t;
 	while(1)
 	{
 	    __delay_cycles(100000);
+	    t = spi_read_temp();
 	    //scm_int2string(buffer, 10, analog_t_temperature());
 	    scm_decimal2string(buffer, 10, analog_t_temperature(), 2);
 	    scm_print(buffer);

@@ -12,36 +12,42 @@ C_SRCS += \
 ../LCD.c \
 ../analog_t.c \
 ../main.c \
-../scm.c 
+../scm.c \
+../spi.c 
 
 C_DEPS += \
 ./LCD.d \
 ./analog_t.d \
 ./main.d \
-./scm.d 
+./scm.d \
+./spi.d 
 
 OBJS += \
 ./LCD.o \
 ./analog_t.o \
 ./main.o \
-./scm.o 
+./scm.o \
+./spi.o 
 
 OBJS__QUOTED += \
 "LCD.o" \
 "analog_t.o" \
 "main.o" \
-"scm.o" 
+"scm.o" \
+"spi.o" 
 
 C_DEPS__QUOTED += \
 "LCD.d" \
 "analog_t.d" \
 "main.d" \
-"scm.d" 
+"scm.d" \
+"spi.d" 
 
 C_SRCS__QUOTED += \
 "../LCD.c" \
 "../analog_t.c" \
 "../main.c" \
-"../scm.c" 
+"../scm.c" \
+"../spi.c" 
 
 
