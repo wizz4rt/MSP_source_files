@@ -37,13 +37,6 @@ int main(void)
 	    LCD_print("C°  ");
 	    }
 
-    /*clock_init();
-    scm_init();
-    scm_print("fucking nigga ylfha");
-	char buffer[10];
-	scm_int3string(buffer, 10,32);
-	scm_print(buffer);
-	*/
 
 	return 0;
 }
