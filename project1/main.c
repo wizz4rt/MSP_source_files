@@ -4,7 +4,7 @@
 #include "LCD.h"
 
 //fuckinf hell
-
+//lal
 int main(void)
 {
     WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
