@@ -9,7 +9,7 @@
 
 void spi_init(void)
 {
-    UCB0CTL0 |= UCMSB + UCMST + UCMODE0 + UCSYNC;
+    UCB0CTL0 |= UCMSB + UCMST + UCMODE0 + UCSYNC; //MSB first, MSP is Master
     UCB0CTL1 |= UCSSEL1;
     // Choose periphal function of used pins
     P1SEL = BIT5 | BIT6 | BIT7;
