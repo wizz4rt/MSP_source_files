@@ -21,7 +21,7 @@ int main(void)
 	LCD_set_page(0);
 
 	char buffer[10];
-	int t;
+	int t = 0;
 	while(1)
 	{
 	    __delay_cycles(100000);
