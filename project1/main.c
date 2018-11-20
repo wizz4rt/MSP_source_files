@@ -5,6 +5,7 @@
 
 //fuckinf hell
 //lal
+//test1
 int main(void)
 {
     WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
