@@ -12,9 +12,9 @@
 #include <msp430g2553.h>
 
 extern void spi_init(void);
-extern void spi_write(int8_t trans);
-extern int8_t spi_read(void);
-extern int8_t spi_read_temp(void);
+extern void spi_send(uint8_t trans);
+extern uint8_t spi_recieve(void);
+extern uint8_t spi_read_temp(void);
 
 
 

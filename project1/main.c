@@ -4,6 +4,7 @@
 #include "LCD.h"
 #include "spi.h"
 
+void clock_init(void);
 
 int main(void)
 {
