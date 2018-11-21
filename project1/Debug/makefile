@@ -14,6 +14,7 @@ ORDERED_OBJS += \
 "./analog_t.o" \
 "./main.o" \
 "./scm.o" \
+"./spi.o" \
 -T"../msp430g2553.ld" \
 $(GEN_CMDS__FLAG) \
 -Wl,--start-group \
@@ -160,8 +161,8 @@ project1.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "LCD.o" "analog_t.o" "main.o" "scm.o" 
-	-$(RM) "LCD.d" "analog_t.d" "main.d" "scm.d" 
+	-$(RM) "LCD.o" "analog_t.o" "main.o" "scm.o" "spi.o" 
+	-$(RM) "LCD.d" "analog_t.d" "main.d" "scm.d" "spi.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
