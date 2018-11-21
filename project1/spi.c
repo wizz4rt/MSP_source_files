@@ -33,8 +33,10 @@ void spi_init(void)
     P1OUT |= BIT3;
 
     spi_send(0x80);
+    while(UCB0STAT & UCBUSY);
     //__delay_cycles(150000);
-    spi_send(0b00000100);
+    spi_send(0x00);
+    while(UCB0STAT & UCBUSY);
     P1OUT &= ~BIT3;
     __delay_cycles(175000);
 
@@ -45,12 +47,7 @@ void spi_init(void)
 
 void spi_send(int8_t trans)
 {
-    //P1OUT = BIT3;             //turn P1.3 on to initiate Communication; start frame
-
     UCB0TXBUF = trans;          //write byte in transmit buffer
-
-    //P1OUT &= ~BIT3;              //turn P1.3 off again; end frame
-
 }
 
 int8_t spi_receive(void)

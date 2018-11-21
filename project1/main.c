@@ -83,13 +83,13 @@ void get_SPI_temperature()
     SET_P1SEL_SPI;
     SET_P1SEL2_SPI;
 
-    P1OUT = BIT3;
+    P1OUT |= BIT3;
 
     spi_send(0x02);
     while(UCB0STAT & UCBUSY);
     spi_send(0xfd);
     while(UCB0STAT & UCBUSY);
-    int8_t temp = spi_receive();
+    int8_t temp = UCB0RXBUF;
 
     char buffer[8];
     scm_int2string(buffer, 8, temp);
