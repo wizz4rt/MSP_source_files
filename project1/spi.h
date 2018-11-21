@@ -17,6 +17,7 @@
 
 #include <stdint.h>
 #include <msp430g2553.h>
+#include <scm.h>
 
 extern void spi_init(void);
 

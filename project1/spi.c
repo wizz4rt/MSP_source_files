@@ -78,6 +78,7 @@ int16_t spi_temperatur(void)
     while(UCB0STAT & UCBUSY);
     int16_t temp = UCB0RXBUF;
     P1OUT &= ~BIT3;
+    scm_putchar(32);
     return temp;
 }
 
