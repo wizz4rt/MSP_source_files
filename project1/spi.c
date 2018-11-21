@@ -17,7 +17,7 @@ void spi_init(void)
 
 
     UCB0CTL0 |= UCMSB + UCMST + UCMODE_1 + UCSYNC; //MSB first, MSP is Master
-    UCB0CTL1 |= UCSSEL_2;        //use SMCLK
+    UCB0CTL1 |= BIT7;        //use SMCLK
     UCB0BR0 |= 0x02;
     UCB0BR1 = 0;
 
