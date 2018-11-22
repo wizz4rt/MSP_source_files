@@ -86,6 +86,42 @@ void i2c_send(uint8_t trans)
             }
         d100;
     }
+    scm_putchar(32);
+    P1DIR |= DATA;
+    P1OUT &= ~(CLK + DATA);
+    d100;
+    P1OUT |= CLK;
+    d100;
+
+    P1DIR &= ~DATA;
+    P1OUT |= DATA;
+
+    for(int i = 0; i<8; i++)
+    {
+        P1OUT &= ~CLK;
+        d100;
+        P1OUT |= CLK;
+
+        if(!(P1IN & DATA)) //Is PIN 7 low?
+            {
+                scm_putchar(49);
+            }else
+            {
+                scm_putchar(48);
+            }
+        d100;
+    }
+    P1OUT &= ~CLK;
+    d100;
+    P1OUT |= CLK;
+    d100;
+    P1OUT &= ~CLK;
+    P1REN &= ~DATA;
+    d100;
+    P1OUT |= CLK;
+    d100;
+    P1REN |= DATA;
+
 
 }
 

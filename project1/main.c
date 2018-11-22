@@ -38,7 +38,7 @@ int main(void)
 	{
 	    i2c_init();
 	    i2c_send(0b10010001);
-	    __delay_cycles(1000000);
+	    __delay_cycles(10000000);
 	}
 	while(0)
 	{
