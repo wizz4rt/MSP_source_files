@@ -11,6 +11,7 @@ LD_SRCS += \
 C_SRCS += \
 ../LCD.c \
 ../analog_t.c \
+../i2c.c \
 ../main.c \
 ../scm.c \
 ../spi.c 
@@ -18,6 +19,7 @@ C_SRCS += \
 C_DEPS += \
 ./LCD.d \
 ./analog_t.d \
+./i2c.d \
 ./main.d \
 ./scm.d \
 ./spi.d 
@@ -25,6 +27,7 @@ C_DEPS += \
 OBJS += \
 ./LCD.o \
 ./analog_t.o \
+./i2c.o \
 ./main.o \
 ./scm.o \
 ./spi.o 
@@ -32,6 +35,7 @@ OBJS += \
 OBJS__QUOTED += \
 "LCD.o" \
 "analog_t.o" \
+"i2c.o" \
 "main.o" \
 "scm.o" \
 "spi.o" 
@@ -39,6 +43,7 @@ OBJS__QUOTED += \
 C_DEPS__QUOTED += \
 "LCD.d" \
 "analog_t.d" \
+"i2c.d" \
 "main.d" \
 "scm.d" \
 "spi.d" 
@@ -46,6 +51,7 @@ C_DEPS__QUOTED += \
 C_SRCS__QUOTED += \
 "../LCD.c" \
 "../analog_t.c" \
+"../i2c.c" \
 "../main.c" \
 "../scm.c" \
 "../spi.c" 
