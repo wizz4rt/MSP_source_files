@@ -17,6 +17,8 @@
 
 extern void i2c_init(void);
 extern void i2c_send(uint8_t trans);
+extern void i2c_send2(uint8_t data);
+extern void i2c_set(uint8_t addr, uint8_t data);
 
 
 #endif /* I2C_H_ */

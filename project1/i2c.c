@@ -22,13 +22,84 @@ void i2c_init(void)
     // P1OUT |= BIT7; pull up
 }
 
+void i2c_send2(uint8_t addr)
+{
+    P1DIR |= DATA + CLK; // Data and Clk to output
+    //P1OUT |= CLK;   // Clk 1
+
+    int div = 128;
+    for (int i = 0; i<8; i++)
+    {
+
+        P1OUT &= ~CLK;  //clock 0
+        d100;
+
+        if(addr>=div){
+            P1OUT |= DATA;  //Data 1 if Bit 1
+            addr -= div;
+            scm_putchar(49);
+        }else{
+            P1OUT &= ~DATA; //Data 0 if Bit 0
+            scm_putchar(48);
+
+        }
+        d100;   // wait
+        P1OUT |= CLK;   //Clk 1
+        d100;   //wait
+
+        div = div/2;
+    }
+}
+
+void i2c_set(uint8_t addr, uint8_t data)
+{
+    P1DIR |= DATA + CLK; // Data and Clk to output
+    P1OUT |= CLK;
+    P1OUT |= DATA;  // Data 1 //begin of startbit
+    d100;   // wait
+    P1OUT &= ~DATA; // Data 0
+    d100; // wait
+
+    i2c_send2(addr); //address sent
+    P1OUT &= ~CLK;  //clk 0
+    d100;
+    P1OUT &= ~DATA; //Data 0
+    d100;
+    P1OUT |= CLK;   //Clk 1
+    d100;           //MASTER ACKN
+    scm_print("mst_ackn\n\r");
+    P1OUT &= ~CLK;  //CLK 0
+    d100;
+    i2c_send2(data);    //Data sent
+
+    P1OUT &= ~CLK;  //Clk 0
+    P1DIR &= ~DATA; //Data as input
+    P1REN |= DATA;  // allow Data pullup
+    P1OUT |= DATA;  //Data pullup
+
+    P1OUT &= ~CLK;  //Clk 0
+    d100;
+
+    P1OUT |= CLK;
+    d100;
+    if(!(P1IN & DATA)) //Is PIN 7 low?
+    {
+        scm_print("ackn\n\r");
+    }else
+    {
+        scm_print("fail\n\r");
+    }
+
+
+}
+
 void i2c_send(uint8_t trans)
 {
     P1DIR |= DATA + CLK;
     P1OUT |= CLK;
     d100;
     P1OUT |= DATA;
-
+    d100;
     P1OUT &= ~DATA;
     d100;
     int div = 128;
