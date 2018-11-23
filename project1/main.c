@@ -28,6 +28,9 @@ int main(void)
 	//LCD_init();
 	i2c_init();
 
+	RESET_P1SEL_SPI;
+	RESET_P1SEL2_SPI;
+
 
 
 
@@ -36,10 +39,8 @@ int main(void)
 
 	while(1)
 	{
-	    i2c_init();
-	    i2c_set(0b10010000, 0);
-	    i2c_send(0b10010001);
-	    __delay_cycles(10000000);
+	    i2c_start_read(0b10010000);
+	    __delay_cycles(1000000);
 	}
 	while(0)
 	{
