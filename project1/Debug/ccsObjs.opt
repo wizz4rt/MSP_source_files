@@ -1,1 +1,0 @@
-"./LCD.o" "./analog_t.o" "./main.o" "./scm.o" -T"../msp430g2553.ld" -Wl,--start-group -lgcc -lc -Wl,--end-group 
