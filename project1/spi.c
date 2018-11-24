@@ -6,11 +6,60 @@
  */
 
 #include "spi.h"
+#define wait10 __delay_cycles(150000)
 
 /*
  * Initialise UCSI and configure Pins
  * note: pins have to be re-configured when the LCD whas used using
  */
+
+void spi_init2(void)
+{
+    P1DIR |= BIT3 | BIT5 | BIT7;                // P1.3, P1.5, P1.7 as output
+    P1DIR &= BIT6;                              //P1.6 as input
+    P1SEL |= BIT6 | BIT7;                       //P1.6, P1.7 P-select 1
+    P1SEL2 |= BIT6 |BIT7;                       //P1.6, P1.7 P-select2 1
+
+    UCB0CTL1 |= UCSWRST;                    //enable configuration
+
+    UCB0CTL0 |= BIT5 | BIT3 | BIT2 | BIT0;  //MSB first, Mastermode, 4pin-mode with active high, synchronus
+    UCB0CTL1 |= BIT7;                       //use SMCLK
+
+    UCB0CTL1 &= UCSWRST;                    //save changes
+
+}
+
+void spi_send_data(uint8_t data)
+{
+    UCB0TXBUF = data;
+    while(UCB0STAT & UCBUSY);
+}
+
+uint8_t spi_receive_data(void)
+{
+    UCB0TXBUF = 0b10000010;
+    while(UCB0STAT & UCBUSY);
+    uint8_t temp = UCB0RXBUF;
+    return temp;
+}
+
+void spi_get_temperature(void)
+{
+    P1OUT |= BIT3;
+    spi_send_data(0b10000000);
+    spi_send_data(0b00000100);
+    P1OUT &= BIT3;
+    wait10;
+    P1OUT |= BIT3;
+    spi_send_data(0b00000010);
+    uint8_t temp = spi_receive_data();
+    char* buffer[4];
+    scm_int2string(buffer, 4, temp);
+    scm_print(buffer);
+    scm_print("\n\r");
+    P1OUT &= BIT3;
+}
+
 void spi_init(void)
 {
     UCB0CTL1 = UCSWRST; //reset

@@ -24,14 +24,14 @@ int main(void)
 	clock_init();
 	//analog_t_adc_init();
 	scm_init();
-    //spi_init();
+    spi_init2();
 	//LCD_init();
-	i2c_init();
+	//i2c_init();
 
-	RESET_P1SEL_SPI;
-	RESET_P1SEL2_SPI;
-	P1SEL &= ~(BIT5 +BIT7);
-	P1SEL2 &= ~(BIT5 +BIT7);
+	//RESET_P1SEL_SPI;
+	//RESET_P1SEL2_SPI;
+	//P1SEL &= ~(BIT5 +BIT7);
+	//P1SEL2 &= ~(BIT5 +BIT7);
 
 
 
@@ -39,6 +39,12 @@ int main(void)
 	uint16_t t = 0;
 
 	while(1)
+	{
+	    spi_get_temperature();
+	    __delay_cycles(1000000);
+	}
+
+	while(0)
 	{
 	    i2c_get_temperature();
 	    __delay_cycles(1000000);
