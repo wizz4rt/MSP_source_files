@@ -40,7 +40,7 @@ int main(void)
 
 	while(1)
 	{
-	    i2c_start_conv(0b10010001);
+	    i2c_get_temperature();
 	    __delay_cycles(1000000);
 	}
 	while(0)
