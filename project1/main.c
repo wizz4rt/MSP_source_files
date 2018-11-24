@@ -41,7 +41,7 @@ int main(void)
 	while(1)
 	{
 	    i2c_start_conv(0b10010001);
-	    __delay_cycles(1000);
+	    __delay_cycles(1000000);
 	}
 	while(0)
 	{

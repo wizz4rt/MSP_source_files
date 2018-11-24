@@ -23,6 +23,7 @@
 #define data_out            (P1DIR |= BIT7)
 #define clk_out             (P1DIR |= BIT5)
 #define data_allowpullup    (P1REN |= BIT7)
+#define data_deniepullup    (P1REN &= ~BIT7)
 
 
 extern void i2c_init(void);
