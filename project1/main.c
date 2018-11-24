@@ -30,7 +30,8 @@ int main(void)
 
 	RESET_P1SEL_SPI;
 	RESET_P1SEL2_SPI;
-
+	P1SEL &= ~(BIT5 +BIT7);
+	P1SEL2 &= ~(BIT5 +BIT7);
 
 
 
@@ -39,8 +40,8 @@ int main(void)
 
 	while(1)
 	{
-	    i2c_start_read(0b10010000);
-	    __delay_cycles(1000000);
+	    i2c_start_conv(0b10010001);
+	    __delay_cycles(1000);
 	}
 	while(0)
 	{
