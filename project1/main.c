@@ -3,6 +3,7 @@
 #include "scm.h"
 #include "LCD.h"
 #include "spi.h"
+#include "i2c.h"
 
 //setup P1.5/7 to be used with the UCSI
 #define SET_P1SEL_SPI       P1SEL |= (BIT5 | BIT7)
@@ -21,11 +22,16 @@ int main(void)
 
     //initialise Components
 	clock_init();
-	analog_t_adc_init();
+	//analog_t_adc_init();
 	scm_init();
-    spi_init();
-	LCD_init();
+    spi_init2();
+	//LCD_init();
+	//i2c_init();
 
+	//RESET_P1SEL_SPI;
+	//RESET_P1SEL2_SPI;
+	//P1SEL &= ~(BIT5 +BIT7);
+	//P1SEL2 &= ~(BIT5 +BIT7);
 
 
 
@@ -34,11 +40,24 @@ int main(void)
 
 	while(1)
 	{
+	    spi_get_temperature();
+	    __delay_cycles(1000000);
+	}
+
+	while(0)
+	{
+	    i2c_get_temperature();
+	    __delay_cycles(1000000);
+	}
+	while(0)
+	{
 	    __delay_cycles(100000);
+	    i2c_init();
+	    i2c_send(0b10010000);
 
 	    //get_SPI_temperature();
 
-	    get_spi_temp();
+	    //get_spi_temp();
 
 	    scm_decimal2string(analog_temp, 7, analog_t_temperature(), 2);  //write temperature from analog sensor in buffer
 	    //scm_print("Analog: ");
