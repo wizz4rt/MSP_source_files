@@ -14,6 +14,9 @@
 //reset P1.5/6/7 to be used as GPIO again
 #define RESET_P1SEL     P1SEL &= ~(BIT5 | BIT7)
 #define RESET_P1SEL2    P1SEL2 &= ~(BIT5 | BIT7)
+//used to set P1.3 on high or low;
+#define CE_1 P1OUT |= BIT3
+#define CE_0 P1OUT &= ~BIT3
 
 #include <stdint.h>
 #include <msp430g2553.h>

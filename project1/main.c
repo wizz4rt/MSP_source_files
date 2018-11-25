@@ -40,8 +40,8 @@ int main(void)
 
 	while(1)
 	{
-	    spi_test();
-	    __delay_cycles(1000000);
+	    spi_get_temperature();
+	    __delay_cycles(100000);
 	}
 
 	while(0)
