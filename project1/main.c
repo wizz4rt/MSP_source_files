@@ -30,7 +30,7 @@ int main(void)
 	analog_t_adc_init();
 
 
-	uint8_t analog_temp = 0;
+	int16_t analog_temp = 0;
     uint8_t spi_temp = 0;
     uint8_t i2c_temp = 0;
 
@@ -50,10 +50,10 @@ int main(void)
         RESET_P1SEL2_SPI;
 
 	    analog_temp = analog_t_temperature();
-	    i2c_temp = i2c_get_temperature();
+	    //i2c_temp = i2c_get_temperature();
 
 	    //write temperatures in corresponding buffers
-        scm_int2string(analog_temp_string, 9, analog_temp);
+        scm_decimal2string(analog_temp_string, 9, analog_temp, 2);
 	    //scm_decimal2string(analog_temp_string, 7, analog_temp, 2);
 	    //scm_int2string(spi_temp_string, 7, spi_temp);
 	    scm_int2string(i2c_temp_string, 7, i2c_temp);
@@ -87,7 +87,7 @@ int main(void)
 	    LCD_set_col(30);
 	    LCD_print("I²C: ");
 	    LCD_print(i2c_temp_string);
-	    scm_print(i2c_temp_string);
+	    //scm_print(i2c_temp_string);
 	    LCD_print("C°     ");
         scm_print("\n\r");
 
@@ -96,13 +96,7 @@ int main(void)
 	    LCD_print("OneWire: ");
 	    LCD_print(" ");
 	    LCD_print("C°     ");
-
-        scm_print("\n\r");
-        scm_print("\n\r");
-        scm_print("\n\r");
-
 	    }
-
 
 	return 0;
 }
