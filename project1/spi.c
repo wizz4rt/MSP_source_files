@@ -24,10 +24,10 @@ void spi_init2(void)
 
     UCB0CTL1 = UCSWRST;                    //enable configuration
 
-    UCB0CTL0 |= UCMSB + UCMST + UCSYNC + UCCKPL;         //MSB first, Mastermode, 4pin-mode with active high, synchronus
+    UCB0CTL0 |= UCMSB + UCMST + UCSYNC;         //MSB first, Mastermode, 4pin-mode with active high, synchronus
     UCB0CTL1 |= UCSSEL_2;                       //use SMCLK
 
-    UCB0BR0 |= 4;
+    UCB0BR0 = 0x04;
     UCB0BR1 = 0;
 
     UCB0CTL1 &= ~UCSWRST;                    //save changes
@@ -36,16 +36,16 @@ void spi_init2(void)
 
 void spi_send_data(uint8_t data)
 {
+    UCB0TXBUF = data;
     while(!(IFG2 & UCB0TXIFG))
     {
         scm_putchar(46);
     }
-    UCB0TXBUF = data;
 }
 
 uint8_t spi_receive_data(void)
 {
-    spi_send_data(0b11101110);
+    spi_send_data(0b00000000);
     while(!(IFG2 & UCB0RXIFG))
     {
         scm_putchar(33);
@@ -72,7 +72,7 @@ void spi_get_temperature(void)
     spi_send_data(0b10000000);
     spi_send_data(0b00000100);
     CE_0;
-    __delay_cycles(200000);
+    wait10;
     CE_1;
     spi_send_data(0b00000010);
     uint8_t temp = spi_receive_data();
