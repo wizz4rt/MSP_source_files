@@ -104,6 +104,8 @@ Discarded input sections
  .rodata        0x00000000       0x19 ./i2c.o
  .data          0x00000000        0x0 ./main.o
  .bss           0x00000000        0x0 ./main.o
+ .data          0x00000000        0x0 ./onewire.o
+ .bss           0x00000000        0x0 ./onewire.o
  .data          0x00000000        0x0 ./scm.o
  .bss           0x00000000        0x0 ./scm.o
  .data          0x00000000        0x0 ./spi.o
@@ -304,6 +306,7 @@ LOAD ./LCD.o
 LOAD ./analog_t.o
 LOAD ./i2c.o
 LOAD ./main.o
+LOAD ./onewire.o
 LOAD ./scm.o
 LOAD ./spi.o
 START GROUP
@@ -389,279 +392,288 @@ __reset_vector  0x0000fffe        0x2
  *(.resetvec)
  .resetvec      0x0000fffe        0x2 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crt0.o
 
-.rodata         0x0000c000      0x10e
+.rodata         0x0000c000      0x112
                 0x0000c000                . = ALIGN (0x2)
  *(.plt)
  *(.rodata .rodata.* .gnu.linkonce.r.* .const .const:*)
- .rodata        0x0000c000        0x3 ./spi.o
- *fill*         0x0000c003        0x1 
+ .rodata        0x0000c000        0x5 ./onewire.o
+ .rodata        0x0000c005        0x3 ./spi.o
  .rodata.__thenan_sf
-                0x0000c004        0xa c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_thenan_sf.o)
-                0x0000c004                __thenan_sf
+                0x0000c008        0xa c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_thenan_sf.o)
+                0x0000c008                __thenan_sf
  .rodata.__clz_tab
-                0x0000c00e      0x100 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_clz.o)
-                0x0000c00e                __clz_tab
+                0x0000c012      0x100 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_clz.o)
+                0x0000c012                __clz_tab
  *(.rodata1)
  *(.gcc_except_table)
  *(.gcc_except_table.*)
-                0x0000c10e                PROVIDE (__preinit_array_start, .)
+                0x0000c112                PROVIDE (__preinit_array_start, .)
  *(.preinit_array)
-                0x0000c10e                PROVIDE (__preinit_array_end, .)
-                0x0000c10e                PROVIDE (__init_array_start, .)
+                0x0000c112                PROVIDE (__preinit_array_end, .)
+                0x0000c112                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array)
-                0x0000c10e                PROVIDE (__init_array_end, .)
-                0x0000c10e                PROVIDE (__fini_array_start, .)
+                0x0000c112                PROVIDE (__init_array_end, .)
+                0x0000c112                PROVIDE (__fini_array_start, .)
  *(.fini_array)
  *(SORT(.fini_array.*))
-                0x0000c10e                PROVIDE (__fini_array_end, .)
+                0x0000c112                PROVIDE (__fini_array_end, .)
 
-.rodata2        0x0000c110       0x7c
-                0x0000c110                . = ALIGN (0x2)
+.rodata2        0x0000c114       0x7c
+                0x0000c114                . = ALIGN (0x2)
  *(.eh_frame_hdr)
  *(.eh_frame)
- .eh_frame      0x0000c110        0x0 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
- .eh_frame      0x0000c110       0x6e c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_udivdi3.o)
- *fill*         0x0000c17e        0x2 
- .eh_frame      0x0000c180        0x4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
+ .eh_frame      0x0000c114        0x0 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
+ .eh_frame      0x0000c114       0x6e c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_udivdi3.o)
+ *fill*         0x0000c182        0x2 
+ .eh_frame      0x0000c184        0x4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
  *crtbegin*.o(.ctors)
- .ctors         0x0000c184        0x2 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
+ .ctors         0x0000c188        0x2 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
  *(EXCLUDE_FILE(*crtend*.o) .ctors)
  *(SORT(.ctors.*))
  *(.ctors)
- .ctors         0x0000c186        0x2 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
+ .ctors         0x0000c18a        0x2 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
  *crtbegin*.o(.dtors)
- .dtors         0x0000c188        0x2 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
+ .dtors         0x0000c18c        0x2 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
  *(EXCLUDE_FILE(*crtend*.o) .dtors)
  *(SORT(.dtors.*))
  *(.dtors)
- .dtors         0x0000c18a        0x2 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
-                0x0000c18a                __DTOR_END__
+ .dtors         0x0000c18e        0x2 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
+                0x0000c18e                __DTOR_END__
 
-.text           0x0000c18c     0x173c
-                0x0000c18c                . = ALIGN (0x2)
-                0x0000c18c                PROVIDE (_start, .)
+.text           0x0000c190     0x198a
+                0x0000c190                . = ALIGN (0x2)
+                0x0000c190                PROVIDE (_start, .)
  *(SORT(.crt_*))
  .crt_0000start
-                0x0000c18c        0x4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crt0.o
-                0x0000c18c                __crt0_start
+                0x0000c190        0x4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crt0.o
+                0x0000c190                __crt0_start
  .crt_0100init_bss
-                0x0000c190        0xe c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_bss.o)
-                0x0000c190                __crt0_init_bss
+                0x0000c194        0xe c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_bss.o)
+                0x0000c194                __crt0_init_bss
  .crt_0300movedata
-                0x0000c19e       0x14 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_movedata.o)
-                0x0000c19e                __crt0_movedata
+                0x0000c1a2       0x14 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_movedata.o)
+                0x0000c1a2                __crt0_movedata
  .crt_0700call_init_then_main
-                0x0000c1b2        0xa c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_main.o)
-                0x0000c1b2                __crt0_call_init_then_main
+                0x0000c1b6        0xa c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_main.o)
+                0x0000c1b6                __crt0_call_init_then_main
  .crt_0900main_init
-                0x0000c1bc       0x3c c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crt0.o
-                0x0000c1bc                _msp430_run_init_array
-                0x0000c1ca                _msp430_run_preinit_array
-                0x0000c1d8                _msp430_run_fini_array
+                0x0000c1c0       0x3c c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crt0.o
+                0x0000c1c0                _msp430_run_init_array
+                0x0000c1ce                _msp430_run_preinit_array
+                0x0000c1dc                _msp430_run_fini_array
  *(.lowtext .text .stub .text.* .gnu.linkonce.t.* .text:*)
  .text.deregister_tm_clones
-                0x0000c1f8       0x1a c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
+                0x0000c1fc       0x1a c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
  .text.register_tm_clones
-                0x0000c212       0x2e c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
+                0x0000c216       0x2e c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
  .text.__do_global_dtors_aux
-                0x0000c240       0x4e c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
+                0x0000c244       0x4e c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
  .text.frame_dummy
-                0x0000c28e       0x18 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
- .text          0x0000c2a6       0xc4 ./main.o
-                0x0000c2a6                get_SPI_temperature
-                0x0000c300                get_spi_temp
-                0x0000c336                clock_init
-                0x0000c344                main
- .text          0x0000c36a      0x388 ./scm.o
-                0x0000c36a                pow
-                0x0000c392                scm_init
-                0x0000c3bc                scm_putchar
-                0x0000c3cc                scm_getchar
-                0x0000c3d8                scm_print
-                0x0000c3f0                scm_getchars
-                0x0000c41a                scm_int2string
-                0x0000c4d4                scm_decimal2string
-                0x0000c510                scm_getint
-                0x0000c566                scm_float2string
- .text          0x0000c6f2      0x1c0 ./spi.o
-                0x0000c6f2                spi_init2
-                0x0000c720                spi_send_data
-                0x0000c738                spi_receive_data
-                0x0000c756                spi_test
-                0x0000c78a                spi_get_temperature
-                0x0000c7e0                spi_init
-                0x0000c85c                spi_send
-                0x0000c862                spi_receive
-                0x0000c868                spi_temperatur
+                0x0000c292       0x18 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
+ .text          0x0000c2aa       0xd4 ./main.o
+                0x0000c2aa                get_SPI_temperature
+                0x0000c304                get_spi_temp
+                0x0000c33a                clock_init
+                0x0000c348                main
+ .text          0x0000c37e      0x23e ./onewire.o
+                0x0000c37e                ow_init
+                0x0000c39e                ow_start_conv
+                0x0000c40e                ow_send_1
+                0x0000c438                ow_send_0
+                0x0000c460                ow_send_byte
+                0x0000c498                ow_read_bit
+                0x0000c4f4                ow_read_byte
+                0x0000c534                ow_test
+ .text          0x0000c5bc      0x388 ./scm.o
+                0x0000c5bc                pow
+                0x0000c5e4                scm_init
+                0x0000c60e                scm_putchar
+                0x0000c61e                scm_getchar
+                0x0000c62a                scm_print
+                0x0000c642                scm_getchars
+                0x0000c66c                scm_int2string
+                0x0000c726                scm_decimal2string
+                0x0000c762                scm_getint
+                0x0000c7b8                scm_float2string
+ .text          0x0000c944      0x1c0 ./spi.o
+                0x0000c944                spi_init2
+                0x0000c972                spi_send_data
+                0x0000c98a                spi_receive_data
+                0x0000c9a8                spi_test
+                0x0000c9dc                spi_get_temperature
+                0x0000ca32                spi_init
+                0x0000caae                spi_send
+                0x0000cab4                spi_receive
+                0x0000caba                spi_temperatur
  .text._fpadd_parts
-                0x0000c8b2      0x234 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_addsub_sf.o)
+                0x0000cb04      0x234 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_addsub_sf.o)
  .text.__addsf3
-                0x0000cae6       0x4e c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_addsub_sf.o)
-                0x0000cae6                __mspabi_addf
+                0x0000cd38       0x4e c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_addsub_sf.o)
+                0x0000cd38                __mspabi_addf
  .text.__subsf3
-                0x0000cb34       0x52 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_addsub_sf.o)
-                0x0000cb34                __mspabi_subf
+                0x0000cd86       0x52 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_addsub_sf.o)
+                0x0000cd86                __mspabi_subf
  .text.__mulsf3
-                0x0000cb86      0x1de c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_mul_sf.o)
-                0x0000cb86                __mspabi_mpyf
- .text.__ltsf2  0x0000cd64       0x58 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_lt_sf.o)
-                0x0000cd64                __ltsf2
+                0x0000cdd8      0x1de c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_mul_sf.o)
+                0x0000cdd8                __mspabi_mpyf
+ .text.__ltsf2  0x0000cfb6       0x58 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_lt_sf.o)
+                0x0000cfb6                __ltsf2
  .text.__floatsisf
-                0x0000cdbc       0xaa c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_si_to_sf.o)
-                0x0000cdbc                __mspabi_fltlif
+                0x0000d00e       0xaa c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_si_to_sf.o)
+                0x0000d00e                __mspabi_fltlif
  .text.__fixsfsi
-                0x0000ce66       0x90 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_sf_to_si.o)
-                0x0000ce66                __mspabi_fixfli
+                0x0000d0b8       0x90 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_sf_to_si.o)
+                0x0000d0b8                __mspabi_fixfli
  .text.__floatunsisf
-                0x0000cef6       0x94 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_usi_to_sf.o)
-                0x0000cef6                __mspabi_fltulf
+                0x0000d148       0x94 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_usi_to_sf.o)
+                0x0000d148                __mspabi_fltulf
  .text.udivmodhi4
-                0x0000cf8a       0x40 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(lib2divHI.o)
-                0x0000cf8a                udivmodhi4
+                0x0000d1dc       0x40 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(lib2divHI.o)
+                0x0000d1dc                udivmodhi4
  .text.__udivhi3
-                0x0000cfca        0x8 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(lib2divHI.o)
-                0x0000cfca                __mspabi_divu
+                0x0000d21c        0x8 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(lib2divHI.o)
+                0x0000d21c                __mspabi_divu
  .text.udivmodsi4
-                0x0000cfd2       0x90 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(lib2divSI.o)
-                0x0000cfd2                udivmodsi4
+                0x0000d224       0x90 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(lib2divSI.o)
+                0x0000d224                udivmodsi4
  .text.__divsi3
-                0x0000d062       0x84 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(lib2divSI.o)
-                0x0000d062                __mspabi_divli
- .text          0x0000d0e6       0x10 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(epilogue.o)
-                0x0000d0e6                __mspabi_func_epilog_7
-                0x0000d0e8                __mspabi_func_epilog_6
-                0x0000d0ea                __mspabi_func_epilog_5
-                0x0000d0ec                __mspabi_func_epilog_4
-                0x0000d0ee                __mspabi_func_epilog_3
-                0x0000d0f0                __mspabi_func_epilog_2
-                0x0000d0f2                __mspabi_func_epilog_1
- .text          0x0000d0f6       0x74 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(slli.o)
-                0x0000d0f6                __mspabi_slli_15
-                0x0000d0f8                __mspabi_slli_14
-                0x0000d0fa                __mspabi_slli_13
-                0x0000d0fc                __mspabi_slli_12
-                0x0000d0fe                __mspabi_slli_11
-                0x0000d100                __mspabi_slli_10
-                0x0000d102                __mspabi_slli_9
-                0x0000d104                __mspabi_slli_8
-                0x0000d106                __mspabi_slli_7
-                0x0000d108                __mspabi_slli_6
-                0x0000d10a                __mspabi_slli_5
-                0x0000d10c                __mspabi_slli_4
-                0x0000d10e                __mspabi_slli_3
-                0x0000d110                __mspabi_slli_2
-                0x0000d112                __mspabi_slli_1
-                0x0000d11a                __mspabi_slli
-                0x0000d120                __mspabi_slll_15
-                0x0000d124                __mspabi_slll_14
-                0x0000d128                __mspabi_slll_13
-                0x0000d12c                __mspabi_slll_12
-                0x0000d130                __mspabi_slll_11
-                0x0000d134                __mspabi_slll_10
-                0x0000d138                __mspabi_slll_9
-                0x0000d13c                __mspabi_slll_8
-                0x0000d140                __mspabi_slll_7
-                0x0000d144                __mspabi_slll_6
-                0x0000d148                __mspabi_slll_5
-                0x0000d14c                __mspabi_slll_4
-                0x0000d150                __mspabi_slll_3
-                0x0000d154                __mspabi_slll_2
-                0x0000d158                __mspabi_slll_1
-                0x0000d164                __mspabi_slll
- .text          0x0000d16a       0xb4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(srli.o)
-                0x0000d16a                __mspabi_srli_15
-                0x0000d16e                __mspabi_srli_14
-                0x0000d172                __mspabi_srli_13
-                0x0000d176                __mspabi_srli_12
-                0x0000d17a                __mspabi_srli_11
-                0x0000d17e                __mspabi_srli_10
-                0x0000d182                __mspabi_srli_9
-                0x0000d186                __mspabi_srli_8
-                0x0000d18a                __mspabi_srli_7
-                0x0000d18e                __mspabi_srli_6
-                0x0000d192                __mspabi_srli_5
-                0x0000d196                __mspabi_srli_4
-                0x0000d19a                __mspabi_srli_3
-                0x0000d19e                __mspabi_srli_2
-                0x0000d1a2                __mspabi_srli_1
-                0x0000d1ae                __mspabi_srli
-                0x0000d1b4                __mspabi_srll_15
-                0x0000d1ba                __mspabi_srll_14
-                0x0000d1c0                __mspabi_srll_13
-                0x0000d1c6                __mspabi_srll_12
-                0x0000d1cc                __mspabi_srll_11
-                0x0000d1d2                __mspabi_srll_10
-                0x0000d1d8                __mspabi_srll_9
-                0x0000d1de                __mspabi_srll_8
-                0x0000d1e4                __mspabi_srll_7
-                0x0000d1ea                __mspabi_srll_6
-                0x0000d1f0                __mspabi_srll_5
-                0x0000d1f6                __mspabi_srll_4
-                0x0000d1fc                __mspabi_srll_3
-                0x0000d202                __mspabi_srll_2
-                0x0000d208                __mspabi_srll_1
-                0x0000d218                __mspabi_srll
+                0x0000d2b4       0x84 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(lib2divSI.o)
+                0x0000d2b4                __mspabi_divli
+ .text          0x0000d338       0x10 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(epilogue.o)
+                0x0000d338                __mspabi_func_epilog_7
+                0x0000d33a                __mspabi_func_epilog_6
+                0x0000d33c                __mspabi_func_epilog_5
+                0x0000d33e                __mspabi_func_epilog_4
+                0x0000d340                __mspabi_func_epilog_3
+                0x0000d342                __mspabi_func_epilog_2
+                0x0000d344                __mspabi_func_epilog_1
+ .text          0x0000d348       0x74 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(slli.o)
+                0x0000d348                __mspabi_slli_15
+                0x0000d34a                __mspabi_slli_14
+                0x0000d34c                __mspabi_slli_13
+                0x0000d34e                __mspabi_slli_12
+                0x0000d350                __mspabi_slli_11
+                0x0000d352                __mspabi_slli_10
+                0x0000d354                __mspabi_slli_9
+                0x0000d356                __mspabi_slli_8
+                0x0000d358                __mspabi_slli_7
+                0x0000d35a                __mspabi_slli_6
+                0x0000d35c                __mspabi_slli_5
+                0x0000d35e                __mspabi_slli_4
+                0x0000d360                __mspabi_slli_3
+                0x0000d362                __mspabi_slli_2
+                0x0000d364                __mspabi_slli_1
+                0x0000d36c                __mspabi_slli
+                0x0000d372                __mspabi_slll_15
+                0x0000d376                __mspabi_slll_14
+                0x0000d37a                __mspabi_slll_13
+                0x0000d37e                __mspabi_slll_12
+                0x0000d382                __mspabi_slll_11
+                0x0000d386                __mspabi_slll_10
+                0x0000d38a                __mspabi_slll_9
+                0x0000d38e                __mspabi_slll_8
+                0x0000d392                __mspabi_slll_7
+                0x0000d396                __mspabi_slll_6
+                0x0000d39a                __mspabi_slll_5
+                0x0000d39e                __mspabi_slll_4
+                0x0000d3a2                __mspabi_slll_3
+                0x0000d3a6                __mspabi_slll_2
+                0x0000d3aa                __mspabi_slll_1
+                0x0000d3b6                __mspabi_slll
+ .text          0x0000d3bc       0xb4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(srli.o)
+                0x0000d3bc                __mspabi_srli_15
+                0x0000d3c0                __mspabi_srli_14
+                0x0000d3c4                __mspabi_srli_13
+                0x0000d3c8                __mspabi_srli_12
+                0x0000d3cc                __mspabi_srli_11
+                0x0000d3d0                __mspabi_srli_10
+                0x0000d3d4                __mspabi_srli_9
+                0x0000d3d8                __mspabi_srli_8
+                0x0000d3dc                __mspabi_srli_7
+                0x0000d3e0                __mspabi_srli_6
+                0x0000d3e4                __mspabi_srli_5
+                0x0000d3e8                __mspabi_srli_4
+                0x0000d3ec                __mspabi_srli_3
+                0x0000d3f0                __mspabi_srli_2
+                0x0000d3f4                __mspabi_srli_1
+                0x0000d400                __mspabi_srli
+                0x0000d406                __mspabi_srll_15
+                0x0000d40c                __mspabi_srll_14
+                0x0000d412                __mspabi_srll_13
+                0x0000d418                __mspabi_srll_12
+                0x0000d41e                __mspabi_srll_11
+                0x0000d424                __mspabi_srll_10
+                0x0000d42a                __mspabi_srll_9
+                0x0000d430                __mspabi_srll_8
+                0x0000d436                __mspabi_srll_7
+                0x0000d43c                __mspabi_srll_6
+                0x0000d442                __mspabi_srll_5
+                0x0000d448                __mspabi_srll_4
+                0x0000d44e                __mspabi_srll_3
+                0x0000d454                __mspabi_srll_2
+                0x0000d45a                __mspabi_srll_1
+                0x0000d46a                __mspabi_srll
  .text.__muldi3
-                0x0000d21e      0x148 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_muldi3.o)
-                0x0000d21e                __mspabi_mpyll
+                0x0000d470      0x148 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_muldi3.o)
+                0x0000d470                __mspabi_mpyll
  .text.__lshrdi3
-                0x0000d366       0x84 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_lshrdi3.o)
-                0x0000d366                __lshrdi3
+                0x0000d5b8       0x84 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_lshrdi3.o)
+                0x0000d5b8                __lshrdi3
  .text.__clzsi2
-                0x0000d3ea       0x50 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_clzsi2.o)
-                0x0000d3ea                __clzsi2
+                0x0000d63c       0x50 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_clzsi2.o)
+                0x0000d63c                __clzsi2
  .text.__pack_f
-                0x0000d43a      0x176 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_pack_sf.o)
-                0x0000d43a                __pack_f
+                0x0000d68c      0x176 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_pack_sf.o)
+                0x0000d68c                __pack_f
  .text.__unpack_f
-                0x0000d5b0      0x138 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_unpack_sf.o)
-                0x0000d5b0                __unpack_f
+                0x0000d802      0x138 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_unpack_sf.o)
+                0x0000d802                __unpack_f
  .text.__fpcmp_parts_f
-                0x0000d6e8       0xb0 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_fpcmp_parts_sf.o)
-                0x0000d6e8                __fpcmp_parts_f
- .text.memcpy   0x0000d798       0x16 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libc.a(lib_a-memcpy.o)
-                0x0000d798                memcpy
+                0x0000d93a       0xb0 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_fpcmp_parts_sf.o)
+                0x0000d93a                __fpcmp_parts_f
+ .text.memcpy   0x0000d9ea       0x16 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libc.a(lib_a-memcpy.o)
+                0x0000d9ea                memcpy
  .text.__mulsi3
-                0x0000d7ae       0x52 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libmul_none.a(lib2_mul_none.o)
-                0x0000d7ae                __mspabi_mpyl
+                0x0000da00       0x52 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libmul_none.a(lib2_mul_none.o)
+                0x0000da00                __mspabi_mpyl
  .text.__mulhi3
-                0x0000d800       0x46 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libmul_none.a(mpy.o)
-                0x0000d800                __mspabi_mpyi
- .text.memmove  0x0000d846       0x38 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libc.a(lib_a-memmove.o)
-                0x0000d846                memmove
- .text.memset   0x0000d87e       0x14 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libc.a(lib_a-memset.o)
-                0x0000d87e                memset
+                0x0000da52       0x46 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libmul_none.a(mpy.o)
+                0x0000da52                __mspabi_mpyi
+ .text.memmove  0x0000da98       0x38 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libc.a(lib_a-memmove.o)
+                0x0000da98                memmove
+ .text.memset   0x0000dad0       0x14 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libc.a(lib_a-memset.o)
+                0x0000dad0                memset
  .text.__do_global_ctors_aux
-                0x0000d892       0x1a c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
+                0x0000dae4       0x1a c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
  *(.text.*personality*)
  *(.gnu.warning)
  *(.interp .hash .dynsym .dynstr .gnu.version*)
                 [!provide]                PROVIDE (__etext, .)
                 [!provide]                PROVIDE (_etext, .)
                 [!provide]                PROVIDE (etext, .)
-                0x0000d8ac                . = ALIGN (0x2)
+                0x0000dafe                . = ALIGN (0x2)
  *(.init)
- .init          0x0000d8ac        0x0 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crt0.o
-                0x0000d8ac                __msp430_init
- .init          0x0000d8ac        0x4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
- .init          0x0000d8b0        0x4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
- .init          0x0000d8b4        0xa c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crtn.o
-                0x0000d8be                __msp430_init_end
+ .init          0x0000dafe        0x0 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crt0.o
+                0x0000dafe                __msp430_init
+ .init          0x0000dafe        0x4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
+ .init          0x0000db02        0x4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
+ .init          0x0000db06        0xa c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crtn.o
+                0x0000db10                __msp430_init_end
  *(.fini)
- .fini          0x0000d8be        0x4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crt0.o
-                0x0000d8be                __msp430_fini
- .fini          0x0000d8c2        0x4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
- .fini          0x0000d8c6        0x2 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crtn.o
-                0x0000d8c8                __msp430_fini_end
+ .fini          0x0000db10        0x4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crt0.o
+                0x0000db10                __msp430_fini
+ .fini          0x0000db14        0x4 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
+ .fini          0x0000db18        0x2 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crtn.o
+                0x0000db1a                __msp430_fini_end
  *(.tm_clone_table)
  .tm_clone_table
-                0x0000d8c8        0x0 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
+                0x0000db1a        0x0 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtbegin.o
  .tm_clone_table
-                0x0000d8c8        0x0 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
-                0x0000d8c8                __TMC_END__
+                0x0000db1a        0x0 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
+                0x0000db1a                __TMC_END__
 
-.data           0x00000200        0x0 load address 0x0000d8c8
+.data           0x00000200        0x0 load address 0x0000db1a
                 0x00000200                . = ALIGN (0x2)
                 0x00000200                PROVIDE (__datastart, .)
  *(.jcr)
@@ -679,10 +691,10 @@ __reset_vector  0x0000fffe        0x2
                 0x00000200                _edata = .
                 [!provide]                PROVIDE (edata, .)
                 [!provide]                PROVIDE (__dataend, .)
-                0x0000d8c8                PROVIDE (__romdatastart, LOADADDR (.data))
+                0x0000db1a                PROVIDE (__romdatastart, LOADADDR (.data))
                 0x00000000                PROVIDE (__romdatacopysize, SIZEOF (.data))
 
-.bss            0x00000200       0x12 load address 0x0000d8c8
+.bss            0x00000200       0x12 load address 0x0000db1a
                 0x00000200                . = ALIGN (0x2)
                 0x00000200                PROVIDE (__bssstart, .)
  *(.dynbss)
@@ -700,7 +712,7 @@ __reset_vector  0x0000fffe        0x2
                 [!provide]                PROVIDE (__bssend, .)
                 0x00000012                PROVIDE (__bsssize, SIZEOF (.bss))
 
-.noinit         0x00000212        0x0 load address 0x0000d8c8
+.noinit         0x00000212        0x0 load address 0x0000db1a
                 0x00000212                . = ALIGN (0x2)
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit)
@@ -708,7 +720,7 @@ __reset_vector  0x0000fffe        0x2
                 [!provide]                PROVIDE (__noinit_end, .)
                 0x00000212                end = .
 
-.heap           0x00000212        0x4 load address 0x0000d8c8
+.heap           0x00000212        0x4 load address 0x0000db1a
                 0x00000212                . = ALIGN (0x2)
                 0x00000212                __heap_start__ = .
                 0x00000212                _end = __heap_start__
@@ -748,89 +760,91 @@ __reset_vector  0x0000fffe        0x2
  .MSP430.attributes
                 0x00000073       0x17 ./main.o
  .MSP430.attributes
-                0x0000008a       0x17 ./scm.o
+                0x0000008a       0x17 ./onewire.o
  .MSP430.attributes
-                0x000000a1       0x17 ./spi.o
+                0x000000a1       0x17 ./scm.o
  .MSP430.attributes
-                0x000000b8       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_addsub_sf.o)
+                0x000000b8       0x17 ./spi.o
  .MSP430.attributes
-                0x000000cf       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_mul_sf.o)
+                0x000000cf       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_addsub_sf.o)
  .MSP430.attributes
-                0x000000e6       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_lt_sf.o)
+                0x000000e6       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_mul_sf.o)
  .MSP430.attributes
-                0x000000fd       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_si_to_sf.o)
+                0x000000fd       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_lt_sf.o)
  .MSP430.attributes
-                0x00000114       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_sf_to_si.o)
+                0x00000114       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_si_to_sf.o)
  .MSP430.attributes
-                0x0000012b       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_thenan_sf.o)
+                0x0000012b       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_sf_to_si.o)
  .MSP430.attributes
-                0x00000142       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_usi_to_sf.o)
+                0x00000142       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_thenan_sf.o)
  .MSP430.attributes
-                0x00000159       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_addsub_df.o)
+                0x00000159       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_usi_to_sf.o)
  .MSP430.attributes
-                0x00000170       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_mul_df.o)
+                0x00000170       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_addsub_df.o)
  .MSP430.attributes
-                0x00000187       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_div_df.o)
+                0x00000187       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_mul_df.o)
  .MSP430.attributes
-                0x0000019e       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_si_to_df.o)
+                0x0000019e       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_div_df.o)
  .MSP430.attributes
-                0x000001b5       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_df_to_si.o)
+                0x000001b5       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_si_to_df.o)
  .MSP430.attributes
-                0x000001cc       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_thenan_df.o)
+                0x000001cc       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_df_to_si.o)
  .MSP430.attributes
-                0x000001e3       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(lib2divHI.o)
+                0x000001e3       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_thenan_df.o)
  .MSP430.attributes
-                0x000001fa       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(lib2divSI.o)
+                0x000001fa       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(lib2divHI.o)
  .MSP430.attributes
-                0x00000211       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(epilogue.o)
+                0x00000211       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(lib2divSI.o)
  .MSP430.attributes
-                0x00000228       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(slli.o)
+                0x00000228       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(epilogue.o)
  .MSP430.attributes
-                0x0000023f       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(srli.o)
+                0x0000023f       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(slli.o)
  .MSP430.attributes
-                0x00000256       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_muldi3.o)
+                0x00000256       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(srli.o)
  .MSP430.attributes
-                0x0000026d       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_lshrdi3.o)
+                0x0000026d       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_muldi3.o)
  .MSP430.attributes
-                0x00000284       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_ashldi3.o)
+                0x00000284       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_lshrdi3.o)
  .MSP430.attributes
-                0x0000029b       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_clzsi2.o)
+                0x0000029b       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_ashldi3.o)
  .MSP430.attributes
-                0x000002b2       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_udivdi3.o)
+                0x000002b2       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_clzsi2.o)
  .MSP430.attributes
-                0x000002c9       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_pack_sf.o)
+                0x000002c9       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_udivdi3.o)
  .MSP430.attributes
-                0x000002e0       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_unpack_sf.o)
+                0x000002e0       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_pack_sf.o)
  .MSP430.attributes
-                0x000002f7       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_fpcmp_parts_sf.o)
+                0x000002f7       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_unpack_sf.o)
  .MSP430.attributes
-                0x0000030e       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_pack_df.o)
+                0x0000030e       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_fpcmp_parts_sf.o)
  .MSP430.attributes
-                0x00000325       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_unpack_df.o)
+                0x00000325       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_pack_df.o)
  .MSP430.attributes
-                0x0000033c       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_clz.o)
+                0x0000033c       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_unpack_df.o)
  .MSP430.attributes
-                0x00000353       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_clzdi2.o)
+                0x00000353       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_clz.o)
  .MSP430.attributes
-                0x0000036a       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libc.a(lib_a-memcpy.o)
+                0x0000036a       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_clzdi2.o)
  .MSP430.attributes
-                0x00000381       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libmul_none.a(lib2_mul_none.o)
+                0x00000381       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libc.a(lib_a-memcpy.o)
  .MSP430.attributes
-                0x00000398       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libmul_none.a(mpy.o)
+                0x00000398       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libmul_none.a(lib2_mul_none.o)
  .MSP430.attributes
-                0x000003af       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_bss.o)
+                0x000003af       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libmul_none.a(mpy.o)
  .MSP430.attributes
-                0x000003c6       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_movedata.o)
+                0x000003c6       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_bss.o)
  .MSP430.attributes
-                0x000003dd       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_main.o)
+                0x000003dd       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_movedata.o)
  .MSP430.attributes
-                0x000003f4       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libc.a(lib_a-memmove.o)
+                0x000003f4       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libcrt.a(crt_main.o)
  .MSP430.attributes
-                0x0000040b       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libc.a(lib_a-memset.o)
+                0x0000040b       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libc.a(lib_a-memmove.o)
  .MSP430.attributes
-                0x00000422       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
+                0x00000422       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430\libc.a(lib_a-memset.o)
  .MSP430.attributes
-                0x00000439       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crtn.o
+                0x00000439       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430/crtend.o
+ .MSP430.attributes
+                0x00000450       0x17 c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/../../../../msp430-elf/lib/430/crtn.o
  *(.gnu.attributes)
  *(__TI_build_attributes)
 
@@ -860,6 +874,7 @@ __reset_vector  0x0000fffe        0x2
  .comment       0x00000039       0x3a ./analog_t.o
  .comment       0x00000039       0x3a ./i2c.o
  .comment       0x00000039       0x3a ./main.o
+ .comment       0x00000039       0x3a ./onewire.o
  .comment       0x00000039       0x3a ./scm.o
  .comment       0x00000039       0x3a ./spi.o
  .comment       0x00000039       0x3a c:/ti/ccsv8/tools/compiler/msp430-gcc-7.3.1.24_win32/bin/../lib/gcc/msp430-elf/7.3.1/430\libgcc.a(_addsub_sf.o)
@@ -908,7 +923,7 @@ __reset_vector  0x0000fffe        0x2
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xc0
+.debug_aranges  0x00000000       0xe0
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x20 ./LCD.o
@@ -919,71 +934,80 @@ __reset_vector  0x0000fffe        0x2
  .debug_aranges
                 0x00000060       0x20 ./main.o
  .debug_aranges
-                0x00000080       0x20 ./scm.o
+                0x00000080       0x20 ./onewire.o
  .debug_aranges
-                0x000000a0       0x20 ./spi.o
+                0x000000a0       0x20 ./scm.o
+ .debug_aranges
+                0x000000c0       0x20 ./spi.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x2ed4
+.debug_info     0x00000000     0x362e
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x84f ./LCD.o
  .debug_info    0x0000084f      0x61d ./analog_t.o
  .debug_info    0x00000e6c      0x7f4 ./i2c.o
- .debug_info    0x00001660      0x793 ./main.o
- .debug_info    0x00001df3      0x966 ./scm.o
- .debug_info    0x00002759      0x77b ./spi.o
+ .debug_info    0x00001660      0x7bb ./main.o
+ .debug_info    0x00001e1b      0x732 ./onewire.o
+ .debug_info    0x0000254d      0x966 ./scm.o
+ .debug_info    0x00002eb3      0x77b ./spi.o
 
-.debug_abbrev   0x00000000      0x786
+.debug_abbrev   0x00000000      0x8b8
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x181 ./LCD.o
  .debug_abbrev  0x00000181       0xae ./analog_t.o
  .debug_abbrev  0x0000022f      0x152 ./i2c.o
- .debug_abbrev  0x00000381      0x16b ./main.o
- .debug_abbrev  0x000004ec      0x169 ./scm.o
- .debug_abbrev  0x00000655      0x131 ./spi.o
+ .debug_abbrev  0x00000381      0x185 ./main.o
+ .debug_abbrev  0x00000506      0x118 ./onewire.o
+ .debug_abbrev  0x0000061e      0x169 ./scm.o
+ .debug_abbrev  0x00000787      0x131 ./spi.o
 
-.debug_line     0x00000000     0x12f3
+.debug_line     0x00000000     0x1659
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x44c ./LCD.o
  .debug_line    0x0000044c      0x18c ./analog_t.o
  .debug_line    0x000005d8      0x403 ./i2c.o
  .debug_line    0x000009db      0x20a ./main.o
- .debug_line    0x00000be5      0x3d5 ./scm.o
- .debug_line    0x00000fba      0x339 ./spi.o
+ .debug_line    0x00000be5      0x366 ./onewire.o
+ .debug_line    0x00000f4b      0x3d5 ./scm.o
+ .debug_line    0x00001320      0x339 ./spi.o
 
-.debug_frame    0x00000000      0x554
+.debug_frame    0x00000000      0x63c
  *(.debug_frame)
  .debug_frame   0x00000000      0x100 ./LCD.o
  .debug_frame   0x00000100       0x68 ./analog_t.o
  .debug_frame   0x00000168      0x110 ./i2c.o
  .debug_frame   0x00000278       0x64 ./main.o
- .debug_frame   0x000002dc      0x1a8 ./scm.o
- .debug_frame   0x00000484       0xd0 ./spi.o
+ .debug_frame   0x000002dc       0xe8 ./onewire.o
+ .debug_frame   0x000003c4      0x1a8 ./scm.o
+ .debug_frame   0x0000056c       0xd0 ./spi.o
 
-.debug_str      0x00000000      0x808
+.debug_str      0x00000000      0x866
  *(.debug_str)
- .debug_str     0x00000000      0x558 ./LCD.o
-                                0x5b8 (size before relaxing)
- .debug_str     0x00000558       0x3f ./analog_t.o
-                                0x4da (size before relaxing)
- .debug_str     0x00000597       0x9a ./i2c.o
-                                0x562 (size before relaxing)
- .debug_str     0x00000631       0x5b ./main.o
-                                0x59c (size before relaxing)
- .debug_str     0x0000068c      0x114 ./scm.o
-                                0x609 (size before relaxing)
- .debug_str     0x000007a0       0x68 ./spi.o
-                                0x55f (size before relaxing)
+ .debug_str     0x00000000      0x551 ./LCD.o
+                                0x5b1 (size before relaxing)
+ .debug_str     0x00000551       0x3f ./analog_t.o
+                                0x4d3 (size before relaxing)
+ .debug_str     0x00000590       0x9a ./i2c.o
+                                0x55b (size before relaxing)
+ .debug_str     0x0000062a       0x6b ./main.o
+                                0x5a5 (size before relaxing)
+ .debug_str     0x00000695       0x55 ./onewire.o
+                                0x519 (size before relaxing)
+ .debug_str     0x000006ea      0x114 ./scm.o
+                                0x602 (size before relaxing)
+ .debug_str     0x000007fe       0x68 ./spi.o
+                                0x558 (size before relaxing)
 
-.debug_loc      0x00000000      0x71b
+.debug_loc      0x00000000      0x7f8
  *(.debug_loc)
  .debug_loc     0x00000000      0x1a4 ./LCD.o
  .debug_loc     0x000001a4      0x121 ./i2c.o
  .debug_loc     0x000002c5       0x1e ./main.o
- .debug_loc     0x000002e3      0x3cb ./scm.o
- .debug_loc     0x000006ae       0x6d ./spi.o
+ .debug_loc     0x000002e3       0xdd ./onewire.o
+ .debug_loc     0x000003c0      0x3cb ./scm.o
+ .debug_loc     0x0000078b       0x6d ./spi.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1102,6 +1126,7 @@ __reset_vector  0x0000fffe        0x2
                 [!provide]                PROVIDE (TLV_ADC10_1_LEN, 0x10db)
 OUTPUT(project1.out elf32-msp430)
 
-.debug_ranges   0x00000000       0x78
+.debug_ranges   0x00000000       0xa8
  .debug_ranges  0x00000000       0x30 ./i2c.o
- .debug_ranges  0x00000030       0x48 ./scm.o
+ .debug_ranges  0x00000030       0x30 ./onewire.o
+ .debug_ranges  0x00000060       0x48 ./scm.o
