@@ -172,7 +172,7 @@ void LCD_clear(void)
 void LCD_init(void)
 {
     // Configure IOs
-    P1DIR = DATA | CLK;
+    P1DIR |= DATA | CLK;
     P2DIR = CD | RST | CS;
 
     LCD_CS_CLEAR;

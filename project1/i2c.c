@@ -66,7 +66,7 @@ uint8_t i2c_read_bit(void)
     wait10;
     if(P1IN & BIT7)
     {
-        scm_putchar(49);
+        //scm_putchar(49);
         wait10;
         clk_0;
         wait10;
@@ -74,7 +74,7 @@ uint8_t i2c_read_bit(void)
         data_out;
         return 1;
     }
-    scm_putchar(48);
+    //scm_putchar(48);
     wait10;
     clk_0;
     wait10;
@@ -98,7 +98,7 @@ uint8_t i2c_receive(void)
         temp = temp + (mult*i2c_read_bit());
         mult = mult/2;
     }
-    scm_putchar(9);
+    //scm_putchar(9);
     data_deniepullup;
     data_out;
     return temp;
@@ -115,7 +115,7 @@ void i2c_ackn(void)
 
     if(!(P1IN & BIT7))
     {
-    scm_print("//ackn// ");
+    //scm_print("//ackn// ");
     }
     wait10;
     clk_0;
@@ -163,27 +163,18 @@ uint8_t i2c_start_conv(uint8_t addr)
 
 }
 
-void i2c_get_temperature(void)
+uint8_t i2c_get_temperature(void)
 {
+    uint8_t temp;
     if(i2c_start_conv(0b10010000))
     {
         char* buffer[4];
-        scm_int2string(buffer, 4, i2c_start_conv(0b10010001));
+        temp = i2c_start_conv(0b10010001);
+        scm_int2string(buffer, 4, temp);
         scm_print("Es sind: ");
         scm_print(buffer);
         scm_print("C°\n\r");
     }
-}
-
-void i2c_set(uint8_t addr, uint8_t data)
-{
-
-}
-
-void i2c_send(uint8_t trans)
-{
-
-
-
+    return temp;
 }
 

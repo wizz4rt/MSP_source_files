@@ -23,14 +23,9 @@
 #include <scm.h>
 
 extern void spi_init(void);
-
-extern void spi_send(int8_t trans);
-extern int8_t spi_receive(void);
-extern int16_t spi_temperatur(void);
 extern void spi_send_data(uint8_t data);
 extern uint8_t spi_receive_data(void);
-extern void spi_get_temperatur(void);
-extern void spi_init2(void);
+extern uint8_t spi_get_temperatur(void);
 extern void spi_test(void);
 
 
