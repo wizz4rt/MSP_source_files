@@ -22,18 +22,19 @@ int main(void)
 
     //initialise Components
 	clock_init();
-	analog_t_adc_init();
+
 	scm_init();
     //spi_init();
 	LCD_init();
 	i2c_init();
+	analog_t_adc_init();
 
 
 	uint8_t analog_temp = 0;
     uint8_t spi_temp = 0;
     uint8_t i2c_temp = 0;
 
-	char analog_temp_string[7];
+	char analog_temp_string[9];
     char spi_temp_string[7];
     char i2c_temp_string[7];
 
@@ -51,8 +52,9 @@ int main(void)
 	    analog_temp = analog_t_temperature();
 	    i2c_temp = i2c_get_temperature();
 
-
-	    scm_decimal2string(analog_temp_string, 7, analog_temp, 2);  //write temperature from analog sensor in buffer
+	    //write temperatures in corresponding buffers
+        scm_int2string(analog_temp_string, 9, analog_temp);
+	    //scm_decimal2string(analog_temp_string, 7, analog_temp, 2);
 	    //scm_int2string(spi_temp_string, 7, spi_temp);
 	    scm_int2string(i2c_temp_string, 7, i2c_temp);
 
@@ -68,30 +70,37 @@ int main(void)
 	    LCD_print("Analog: ");
 	    LCD_print(analog_temp_string);
         scm_print(analog_temp_string);
-        scm_print("\n\r");
 	    LCD_print("C°     ");
+        scm_print("\n\r");
+
 
 	    LCD_set_page(3);
 	    LCD_set_col(30);
 	    LCD_print("SPI: ");
-	    LCD_print(spi_temp_string);
-	    scm_print(spi_temp_string);
-	    scm_print("\n\r");
+	    //LCD_print(spi_temp_string);
+	    //scm_print(spi_temp_string);
 	    LCD_print("C°     ");
+        scm_print("\n\r");
+
 
 	    LCD_set_page(4);
 	    LCD_set_col(30);
 	    LCD_print("I²C: ");
 	    LCD_print(i2c_temp_string);
 	    scm_print(i2c_temp_string);
-	    scm_print("\n\r");
 	    LCD_print("C°     ");
+        scm_print("\n\r");
 
 	    LCD_set_page(5);
 	    LCD_set_col(30);
 	    LCD_print("OneWire: ");
 	    LCD_print(" ");
 	    LCD_print("C°     ");
+
+        scm_print("\n\r");
+        scm_print("\n\r");
+        scm_print("\n\r");
+
 	    }
 
 

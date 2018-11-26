@@ -171,9 +171,9 @@ uint8_t i2c_get_temperature(void)
         char* buffer[4];
         temp = i2c_start_conv(0b10010001);
         scm_int2string(buffer, 4, temp);
-        scm_print("Es sind: ");
-        scm_print(buffer);
-        scm_print("C°\n\r");
+        //scm_print("Es sind: ");
+        //scm_print(buffer);
+        //scm_print("C°\n\r");
     }
     return temp;
 }
