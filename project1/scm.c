@@ -71,14 +71,14 @@ int8_t scm_getchars(char* buffer)
     int8_t length = 0;
     while (1)
     {
-        int8_t input = scm_getchar();
+        int8_t input = scm_getchar();   //read single char
 
-        if(input==13) // stop writing when reading "Enter"(=13 in ASCII) and end buffer with NULL
+        if(input==13)                   // stop writing when reading "Enter"(=13 in ASCII) and end buffer with NULL
         {
             *buffer = '\0';
             break;
         }
-        *buffer = input;
+        *buffer = input;                //write char in array
         buffer++;
         length++;
     }

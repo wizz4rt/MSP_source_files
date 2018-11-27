@@ -26,7 +26,6 @@ extern void spi_init(void);
 extern void spi_send_data(uint8_t data);
 extern uint8_t spi_receive_data(void);
 extern uint8_t spi_get_temperatur(void);
-extern void spi_test(void);
 
 
 

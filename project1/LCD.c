@@ -86,7 +86,7 @@ void LCD_write_cmd(int8_t cmd)
 {
     uint8_t i;
 
-    P1DIR = DATA | CLK; // Pins DATA and CLK are outputs
+    P1DIR |= DATA | CLK; // Pins DATA and CLK are outputs
     LCD_CS_CLEAR; // activate contol of LCD
     LCD_CD_CLEAR; // byte to send is a command
 
@@ -114,7 +114,7 @@ void LCD_write_data(int8_t data)
 {
     int8_t i;
 
-    P1DIR = DATA | CLK; // Pins DATA and CLK are outputs
+    P1DIR |= DATA | CLK; // Pins DATA and CLK are outputs
     LCD_CS_CLEAR; // activate contol of LCD
     LCD_CD_SET; // byte to send is a data byte
 
@@ -173,7 +173,7 @@ void LCD_init(void)
 {
     // Configure IOs
     P1DIR |= DATA | CLK;
-    P2DIR = CD | RST | CS;
+    P2DIR |= CD | RST | CS;
 
     LCD_CS_CLEAR;
     // wait for a release reset
