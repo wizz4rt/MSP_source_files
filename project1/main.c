@@ -44,7 +44,9 @@ int main(void)
 	{
 	    i2c_get_temperature2(i2c_buffer);
 	    scm_print(i2c_buffer);
-	    __delay_cycles(1000000);
+	    scm_print("\r");
+	    __delay_cycles(10000);
+
 	}
 	while(0)
 	{

@@ -71,7 +71,6 @@ uint8_t i2c_read_bit(void)
     WAIT1000;
     if(P1IN & BIT7)
     {
-        scm_putchar(49);
         WAIT1000;
         CLK_0;
         WAIT1000;
@@ -79,7 +78,6 @@ uint8_t i2c_read_bit(void)
         DATA_OUT;
         return 1;
     }
-    scm_putchar(48);
     WAIT1000;
     CLK_0;
     WAIT1000;
@@ -103,7 +101,6 @@ uint8_t i2c_receive(void)
         temp = temp + (mult*i2c_read_bit());
         mult = mult/2;
     }
-    scm_putchar(9);
     DATA_DENIEPULLUP;
     DATA_OUT;
     return temp;
@@ -212,7 +209,7 @@ void i2c_get_temperature2(char* temp_buffer)
         temp_buffer[predec_len+1] = '0';
         temp_buffer[predec_len+2] = '0';
     }
-    temp_buffer[predec_len+3] = '\n';
+    temp_buffer[predec_len+3] = '\0';
 }
 
 void i2c_get_temperature(void)
