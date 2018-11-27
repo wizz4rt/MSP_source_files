@@ -1,93 +1,108 @@
 /*
  * spi.c
  *
- *  Created on: 20.11.2018
- *      Author: Jan-Niclas Nutt
+ *  Created on: 27.11.2018
+ *      Author: tomne
  */
-
 #include "spi.h"
 
 
-/*
- * Initialise UCSI and configure Pins
- * note: pins have to be re-configured when the LCD whas used using
- */
-
 void spi_init(void)
 {
+    scm_init();
+    scm_putchar(35);
+
+    P1DIR |= BIT3;
+
     UCB0CTL1 = UCSWRST;                    //enable configuration
 
     UCB0CTL0 |= UCMSB + UCMST + UCSYNC;         //MSB first, Mastermode, 4pin-mode with active high, synchronus
     UCB0CTL1 |= UCSSEL_2;                       //use SMCLK
 
     UCB0BR0 = 0x04;
-    UCB0BR1 = 0;
+    //UCB0BR1 = 0;
 
     UCB0CTL1 &= ~UCSWRST;                    //save changes
+    __delay_cycles(100);
 }
-
-void spi_send_data(uint8_t data)
+void spi_transmit_data(char addr, char data)
 {
+    UCB0TXBUF = addr;
+    while (UCB0STAT & UCBUSY);
     UCB0TXBUF = data;
-    while(!(IFG2 & UCB0TXIFG));
-    //while(UCB0STAT & UCBUSY);
-}
+    while (UCB0STAT & UCBUSY);
 
-uint8_t spi_receive_data(void)
+}
+char spi_receive_data(char addr)
 {
     char rec;
-    spi_send_data(0b00000000);
-    while(!(IFG2 & UCB0RXIFG));
-    //while(UCB0STAT & UCBUSY);
-    rec = UCB0RXBUF;
-    return rec;
+    UCB0TXBUF = addr;
+    while (UCB0STAT & UCBUSY);
+    UCB0TXBUF = 0x00;   //dummy
+    while (UCB0STAT & UCBUSY);
+
+    rec = UCB0RXBUF;  //read rxbuffer
+    return rec; //return value
+
 }
-
-
-uint8_t spi_get_temperature(char* buffer)
+void spi_get_temperature(char* buffer)
 {
+    uint8_t temp_MSB;
+    uint8_t temp_LSB;
+
+
     SET_P1SEL;
-    SET_P1SEL;
+    SET_P1SEL2;
 
     CE_1;
-    spi_send_data(0b10000000);
-    spi_send_data(0b00000000);
+    spi_transmit_data(0x80, 0x00);
     CE_0;
-    //WAIT1000;
+    __delay_cycles(170000); //wait for control register to save changes
     CE_1;
-    spi_send_data(0b00000010);
-    uint8_t temp_MSB = spi_receive_data();
+    temp_MSB = spi_receive_data(0x02);
     CE_0;
+    __delay_cycles(2);
     CE_1;
-    spi_send_data(0b00000001);
-    uint8_t temp_LSB = spi_receive_data();
+    temp_LSB = spi_receive_data(0x01);
     CE_0;
+    __delay_cycles(10);
 
-    scm_int2string(buffer, 8, temp_MSB);
-    scm_print(buffer);
-    scm_print("\n\r");
-    char buffer2[4];
-    scm_int2string(buffer2, 8, temp_LSB);
-    scm_print(buffer2);
-    scm_print("\n\r");
+    uint8_t len = scm_int2string(buffer, 10, temp_MSB);
+    buffer[len] = ',';
+    if(temp_LSB & BIT7)
+    {
+        if(temp_LSB & BIT6)
+        {
+            //case: LSB is '11'
+            buffer[len+1] = '7';
+            buffer[len+2] = '5';
+        }
+        else
+        {
+            //case: LSB is '10'
+            buffer[len+1] = '5';
+            buffer[len+2] = '0';
+        }
+    }
+    else
+    {
+        if(temp_LSB & BIT6)
+        {
+            //case: LSB is '01'
+            buffer[len+1] = '2';
+            buffer[len+2] = '5';
+        }
+        else
+        {
+            //case: LSB is '00'
+            buffer[len+1] = '0';
+            buffer[len+2] = '0';
+        }
+    }
+    buffer[len+3] = '\0';
 
     RESET_P1SEL;
     RESET_P1SEL2;
-
-    return temp_MSB;
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 

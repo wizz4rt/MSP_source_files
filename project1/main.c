@@ -96,6 +96,7 @@ void print_temps(void)
     if(nonsense3 >= 26){nonsense3 = 0;}
 }
 
+
 void clock_init(void)
 {
     // Set clock registers for frequency of 1 MHz
