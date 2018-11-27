@@ -38,9 +38,12 @@ int main(void)
 	char analog_temp[7];
 	uint16_t t = 0;
 
+	char i2c_buffer[8];
+
 	while(1)
 	{
-	    i2c_get_temperature();
+	    i2c_get_temperature2(i2c_buffer);
+	    scm_print(i2c_buffer);
 	    __delay_cycles(1000000);
 	}
 	while(0)
