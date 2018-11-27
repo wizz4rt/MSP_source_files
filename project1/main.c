@@ -47,14 +47,17 @@ int main(void)
 
 
 	    //print results to LCD
-	    print_temps();
+	    print_temps_LCD();
+	    //print results to the console
+	    print_temps_console();
+
 	    nonsense();
 	}
 	return 0;
 }
 
 
-void print_temps(void)
+void print_temps_LCD(void)
 {
     LCD_set_col(30);
     LCD_set_page(0);
@@ -62,7 +65,7 @@ void print_temps(void)
     LCD_set_page(2);
     LCD_set_col(30);
 
-    LCD_print("Analog: ");
+    LCD_print("Analog:");
     LCD_set_col(90);
     LCD_print(analog_temp_string);
     LCD_print("C°     ");
@@ -70,7 +73,7 @@ void print_temps(void)
 
     LCD_set_page(3);
     LCD_set_col(30);
-    LCD_print("SPI: ");
+    LCD_print("SPI:");
     LCD_set_col(90);
     LCD_print(spi_temp_string);
     LCD_print("C°     ");
@@ -78,17 +81,45 @@ void print_temps(void)
 
     LCD_set_page(4);
     LCD_set_col(30);
-    LCD_print("I²C: ");
+    LCD_print("I²C:");
     LCD_set_col(90);
     LCD_print(i2c_temp_string);
     LCD_print("C°     ");
 
     LCD_set_page(5);
     LCD_set_col(30);
-    LCD_print("OneWire: ");
+    LCD_print("OneWire:");
     LCD_set_col(90);
     LCD_print(onewire_temp_string);
     LCD_print("C°     ");
+
+
+}
+
+void print_temps_console(void)
+{
+    scm_print("\n\n------ Temperatur ------\n\r");
+    scm_print("  Analog:   ");
+    scm_putchar(9);
+    scm_print(analog_temp_string);
+    scm_print("C°\n\r");
+
+    scm_print("  SPI:      ");
+    scm_putchar(9);
+    scm_print(spi_temp_string);
+    scm_print("C°\n\r");
+
+    scm_print("  I²C:      ");
+    scm_putchar(9);
+    scm_print(i2c_temp_string);
+    scm_print("C°\n\r");
+
+    scm_print("  OneWire: ");
+    scm_putchar(9);
+    scm_print(onewire_temp_string);
+    scm_print("C°\n\r");
+
+    scm_print("-------------------------\n\r\n");
 
 
 }

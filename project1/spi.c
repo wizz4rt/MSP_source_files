@@ -9,20 +9,16 @@
 
 void spi_init(void)
 {
-    scm_init();
-    scm_putchar(35);
-
     P1DIR |= BIT3;
 
-    UCB0CTL1 = UCSWRST;                    //enable configuration
+    UCB0CTL1 = UCSWRST;                     //enable configuration
 
-    UCB0CTL0 |= UCMSB + UCMST + UCSYNC;         //MSB first, Mastermode, 4pin-mode with active high, synchronus
-    UCB0CTL1 |= UCSSEL_2;                       //use SMCLK
+    UCB0CTL0 |= UCMSB + UCMST + UCSYNC;     //MSB first, Mastermode, 4pin-mode with active high, synchronus
+    UCB0CTL1 |= UCSSEL_2;                   //use SMCLK
 
-    UCB0BR0 = 0x04;
-    //UCB0BR1 = 0;
+    UCB0BR0 = 0x04;                         //set clock divider
 
-    UCB0CTL1 &= ~UCSWRST;                    //save changes
+    UCB0CTL1 &= ~UCSWRST;                   //save changes
     __delay_cycles(100);
 }
 void spi_transmit_data(char addr, char data)
