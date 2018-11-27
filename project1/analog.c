@@ -21,7 +21,7 @@ int16_t analog_get_temperature(char* buffer)
     t = ADC10MEM;
     ADC10CTL0 &= ~ENC;                  //disable conversion
 
-    t = (12*t)-1998;                     //convert adc value in degrees Celsius * 100
+    t = (12*t)-1997;                     //convert adc value in degrees Celsius * 100
 
     scm_decimal2string(buffer, 8, t, 2);//write temperature into buffer and set comma
 

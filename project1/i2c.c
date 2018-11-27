@@ -8,14 +8,16 @@
 
 #include "i2c.h"
 
-
+//initialization
 void i2c_init(void)
 {
     CLK_OUT;
     DATA_OUT;
     DATA_DENIEPULLUP;
 }
-
+/*
+ * send a single bit
+ */
 void i2c_send_bit(uint8_t bit)
 {
     CLK_0;
@@ -87,7 +89,7 @@ uint8_t i2c_read_bit(void)
 
 }
 /*
- * recieve whole characte
+ * receive whole character
  * \return character
  */
 uint8_t i2c_receive(void)
@@ -111,6 +113,7 @@ uint8_t i2c_receive(void)
     return temp;
 }
 
+//receive an acknowledge
 void i2c_ackn(void)
 {
     CLK_0;
@@ -138,6 +141,9 @@ void i2c_ackn(void)
  * if next == 0 keep the conversation up, but dont recieve the next char
  */
 
+/*
+ * start conversation with slave at addr. Recieves and returns a byte if addr was a read address.
+ */
 uint8_t i2c_start_conv(uint8_t addr, uint8_t next)
 {
     CLK_OUT;
@@ -171,8 +177,12 @@ uint8_t i2c_start_conv(uint8_t addr, uint8_t next)
         return 1;
     }
 
-}
 
+}
+/*
+ * calculate temperature and write it with two decimal digits into buffer.
+ * \return MSB
+ */
 uint8_t i2c_get_temperature_MSB(char* buffer)
 {
     uint8_t temp_MSB;
@@ -195,6 +205,7 @@ uint8_t i2c_get_temperature_MSB(char* buffer)
         buffer[len+2] = '0';
         buffer[len+3] = '\0';
     }
+    DATA_DENIEPULLUP;
     return temp_MSB;
 }
 
