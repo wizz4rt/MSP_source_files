@@ -11,16 +11,18 @@
 
 void i2c_init(void)
 {
+    //pin setup
     CLK_OUT;
     DATA_OUT;
     DATA_DENIEPULLUP;
 
+    //sensor setup
     i2c_send_startbit();
-    i2c_send_data2(0b10010000);
+    i2c_send_data(0b10010000);      //initiate write-action
     i2c_send_bit(0);
-    i2c_send_data2(0b00000000);
+    i2c_send_data(0b00000000);      //put sensor in continuously-measure-mode
     i2c_ackn();
-    i2c_send_bit(1);
+    i2c_send_bit(1);                //master-acknowledge
 }
 
 void i2c_send_bit(uint8_t bit)
@@ -29,11 +31,11 @@ void i2c_send_bit(uint8_t bit)
     DATA_OUT;
     if(bit==1)
     {
-        DATA_1;
+        DATA_1;         //send logical 1
     }
     else
     {
-        DATA_0;
+        DATA_0;         //send logical 0
     }
     WAIT1000;
     CLK_1;
@@ -42,23 +44,6 @@ void i2c_send_bit(uint8_t bit)
     WAIT1000;
 }
 
-uint8_t i2c_send_data(uint8_t data)
-{
-    CLK_0;
-    DATA_OUT;
-    DATA_0;
-    uint16_t div =128;
-    uint8_t bit;
-    for(uint8_t i = 0; i<8;i++)
-    {
-        bit = (uint8_t) data/div;
-        i2c_send_bit(bit);
-        data = data-(div*bit);
-        div = div/2;
-    }
-    return bit;
-
-}
 
 uint8_t i2c_read_bit(void)
 {
@@ -69,21 +54,21 @@ uint8_t i2c_read_bit(void)
     WAIT1000;
     CLK_1;
     WAIT1000;
-    if(P1IN & BIT7)
+    if(P1IN & BIT7)         //read a logical 1?
     {
         WAIT1000;
         CLK_0;
         WAIT1000;
         DATA_DENIEPULLUP;
         DATA_OUT;
-        return 1;
+        return 1;           //give back logical 1
     }
     WAIT1000;
     CLK_0;
     WAIT1000;
     DATA_DENIEPULLUP;
     DATA_OUT;
-    return 0;
+    return 0;               //give back logical 0
 
 }
 
@@ -96,14 +81,14 @@ uint8_t i2c_receive(void)
     WAIT1000;
     uint8_t temp=0;
     uint8_t mult=128;
-    for(uint8_t j=0; j<8; j++)
+    for(uint8_t j=0; j<8; j++)                  //receive a byte, bit by bit
     {
-        temp = temp + (mult*i2c_read_bit());
-        mult = mult/2;
+        temp = temp + (mult*i2c_read_bit());    //if 1 was read: add mult to temp
+        mult = mult>>1;                         //divide mult by 2
     }
     DATA_DENIEPULLUP;
     DATA_OUT;
-    return temp;
+    return temp;        //return received byte
 }
 
 void i2c_ackn(void)
@@ -115,7 +100,7 @@ void i2c_ackn(void)
     WAIT1000;
     CLK_1;
 
-    if(!(P1IN & BIT7));
+    if(!(P1IN & BIT7));     //wait for slave to acknowledge
     WAIT1000;
     CLK_0;
 
@@ -126,18 +111,19 @@ void i2c_ackn(void)
 
 void i2c_send_startbit(void)
 {
+    //startbit_sequence
     CLK_OUT;
     DATA_OUT;
     DATA_DENIEPULLUP;
     CLK_1;
     DATA_1;
     WAIT1000;
-    DATA_0;
+    DATA_0;         //set startbit
     WAIT1000;
     CLK_0;
 }
 
-void i2c_send_data2(uint8_t data)
+void i2c_send_data(uint8_t data)
 {
     DATA_OUT;
     DATA_0;
@@ -156,39 +142,7 @@ void i2c_send_data2(uint8_t data)
     }
 }
 
-uint8_t i2c_start_conv(uint8_t addr)
-{
-    CLK_OUT;
-    DATA_OUT;
-    DATA_DENIEPULLUP;
-    CLK_1;
-    DATA_1;
-    WAIT1000;
-    DATA_0;
-    WAIT1000;
-    CLK_0;
-
-    uint8_t op = i2c_send_data(addr);
-
-    if(op)
-    {
-    i2c_ackn();
-    uint8_t temp = i2c_receive();
-    i2c_send_bit(1);
-    return temp;
-    }
-    else
-    {
-        i2c_send_bit(0);
-        i2c_send_data(0b00000000);
-        i2c_ackn();
-        i2c_send_bit(1);
-        return 1;
-    }
-
-}
-
-void i2c_get_temperature2(char* temp_buffer)
+void i2c_get_temperature(char* temp_buffer)
 {
     i2c_send_startbit();
     i2c_send_data2(0b10010001);
@@ -210,16 +164,4 @@ void i2c_get_temperature2(char* temp_buffer)
         temp_buffer[predec_len+2] = '0';
     }
     temp_buffer[predec_len+3] = '\0';
-}
-
-void i2c_get_temperature(void)
-{
-    if(i2c_start_conv(0b10010000))
-    {
-        char* buffer[4];
-        scm_int2string(buffer, 4, i2c_start_conv(0b10010001));
-        scm_print("Es sind: ");
-        scm_print(buffer);
-        scm_print("C°\n\r");
-    }
 }
