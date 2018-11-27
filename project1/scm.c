@@ -94,7 +94,7 @@ int8_t scm_int2string(char* buffer, uint8_t buffer_size, int16_t number)
     int32_t vergleich = 1;
     int8_t laenge = 1;
 
-    if(number < 0)
+    if(number < 0)                  //write '-' if number is less than 0
     {
         *buffer = '-';
         buffer++;
@@ -102,12 +102,12 @@ int8_t scm_int2string(char* buffer, uint8_t buffer_size, int16_t number)
         number = number * (-1);
     }
 
-    while (number>=vergleich*10)
+    while (number>=vergleich*10)    //calculate length of the number
     {
         laenge++;
         vergleich = vergleich*10;
     }
-    while (vergleich!=0)
+    while (vergleich!=0)            //write digits into buffer
     {
         int16_t ziffer = number/vergleich;
         *buffer = ziffer+48;
@@ -115,20 +115,23 @@ int8_t scm_int2string(char* buffer, uint8_t buffer_size, int16_t number)
         number = number-(ziffer*vergleich);
         vergleich = vergleich/10;
     }
-    *buffer = '\0';
+    *buffer = '\0';                 //'\0' at the end to end string properly
     return laenge;
 }
 
-
+/*
+ * use int2string to convert number into a string in buffer and set a commma so you get "decimal"-decimal digits
+ * \return length of number
+ */
 int8_t scm_decimal2string(char* buffer, uint8_t buffer_size, int16_t number, int8_t decimal)
 {
     int len = scm_int2string(buffer, buffer_size, number);
 
-    for (int i = len; i>=(len-decimal); i--)
+    for (int i = len; i>=(len-decimal); i--) //shift every char behind the comma to the right
     {
         buffer[i+1] = buffer[i];
     }
-    buffer[len-decimal] = ',';
+    buffer[len-decimal] = ',';              //set comma
     return len;
 }
 

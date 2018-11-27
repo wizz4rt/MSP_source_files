@@ -1,5 +1,5 @@
 #include <msp430.h> 
-#include "analog_t.h"
+#include "analog.h"
 #include "scm.h"
 #include "LCD.h"
 #include "spi.h"
@@ -25,16 +25,15 @@ int main(void)
 	clock_init();
 
 	scm_init();
-    spi_init();
+    //spi_init();
 	LCD_init();
 	i2c_init();
-	analog_t_adc_init();
+	analog_adc_init();
 	ow_init();
 
 
 	int16_t analog_temp = 0;
     uint8_t spi_temp = 0;
-    uint8_t i2c_temp = 0;
 
 	char analog_temp_string[9];
     char spi_temp_string[7];
@@ -44,15 +43,16 @@ int main(void)
 	while(1)
 	{
 	    //read temperatures
-        analog_temp = analog_t_temperature();
-	    spi_temp = spi_get_temperature();
-	    i2c_temp = i2c_get_temperature_MSB(i2c_temp_string);
+        analog_temp = analog_get_temperature(analog_temp_string);
+	    //spi_temp = spi_get_temperature();
+	    i2c_get_temperature_MSB(i2c_temp_string);
+
 	    __delay_cycles(10000);
 
 	    //write temperatures in corresponding buffers
-        scm_decimal2string(analog_temp_string, 9, analog_temp, 2);
+
 	    scm_int2string(spi_temp_string, 7, spi_temp);
-	    scm_int2string(i2c_temp_string, 7, i2c_temp);
+
 	    ow_test(onewire_temp_string);
 
 

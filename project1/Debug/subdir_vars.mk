@@ -10,7 +10,7 @@ LD_SRCS += \
 
 C_SRCS += \
 ../LCD.c \
-../analog_t.c \
+../analog.c \
 ../i2c.c \
 ../main.c \
 ../onewire.c \
@@ -19,7 +19,7 @@ C_SRCS += \
 
 C_DEPS += \
 ./LCD.d \
-./analog_t.d \
+./analog.d \
 ./i2c.d \
 ./main.d \
 ./onewire.d \
@@ -28,7 +28,7 @@ C_DEPS += \
 
 OBJS += \
 ./LCD.o \
-./analog_t.o \
+./analog.o \
 ./i2c.o \
 ./main.o \
 ./onewire.o \
@@ -37,7 +37,7 @@ OBJS += \
 
 OBJS__QUOTED += \
 "LCD.o" \
-"analog_t.o" \
+"analog.o" \
 "i2c.o" \
 "main.o" \
 "onewire.o" \
@@ -46,7 +46,7 @@ OBJS__QUOTED += \
 
 C_DEPS__QUOTED += \
 "LCD.d" \
-"analog_t.d" \
+"analog.d" \
 "i2c.d" \
 "main.d" \
 "onewire.d" \
@@ -55,7 +55,7 @@ C_DEPS__QUOTED += \
 
 C_SRCS__QUOTED += \
 "../LCD.c" \
-"../analog_t.c" \
+"../analog.c" \
 "../i2c.c" \
 "../main.c" \
 "../onewire.c" \
