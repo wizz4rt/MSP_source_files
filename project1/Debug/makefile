@@ -14,6 +14,7 @@ ORDERED_OBJS += \
 "./analog_t.o" \
 "./i2c.o" \
 "./main.o" \
+"./onewire.o" \
 "./scm.o" \
 "./spi.o" \
 -T"../msp430g2553.ld" \
@@ -162,8 +163,8 @@ project1.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "LCD.o" "analog_t.o" "i2c.o" "main.o" "scm.o" "spi.o" 
-	-$(RM) "LCD.d" "analog_t.d" "i2c.d" "main.d" "scm.d" "spi.d" 
+	-$(RM) "LCD.o" "analog_t.o" "i2c.o" "main.o" "onewire.o" "scm.o" "spi.o" 
+	-$(RM) "LCD.d" "analog_t.d" "i2c.d" "main.d" "onewire.d" "scm.d" "spi.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

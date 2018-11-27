@@ -13,6 +13,7 @@ C_SRCS += \
 ../analog_t.c \
 ../i2c.c \
 ../main.c \
+../onewire.c \
 ../scm.c \
 ../spi.c 
 
@@ -21,6 +22,7 @@ C_DEPS += \
 ./analog_t.d \
 ./i2c.d \
 ./main.d \
+./onewire.d \
 ./scm.d \
 ./spi.d 
 
@@ -29,6 +31,7 @@ OBJS += \
 ./analog_t.o \
 ./i2c.o \
 ./main.o \
+./onewire.o \
 ./scm.o \
 ./spi.o 
 
@@ -37,6 +40,7 @@ OBJS__QUOTED += \
 "analog_t.o" \
 "i2c.o" \
 "main.o" \
+"onewire.o" \
 "scm.o" \
 "spi.o" 
 
@@ -45,6 +49,7 @@ C_DEPS__QUOTED += \
 "analog_t.d" \
 "i2c.d" \
 "main.d" \
+"onewire.d" \
 "scm.d" \
 "spi.d" 
 
@@ -53,6 +58,7 @@ C_SRCS__QUOTED += \
 "../analog_t.c" \
 "../i2c.c" \
 "../main.c" \
+"../onewire.c" \
 "../scm.c" \
 "../spi.c" 
 
