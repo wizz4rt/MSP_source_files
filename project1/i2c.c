@@ -11,37 +11,37 @@
 
 void i2c_init(void)
 {
-    clk_out;
-    data_out;
-    data_deniepullup;
+    CLK_OUT;
+    DATA_OUT;
+    DATA_DENIEPULLUP;
 }
 
 void i2c_send_bit(uint8_t bit)
 {
-    clk_0;
-    data_out;
+    CLK_0;
+    DATA_OUT;
     if(bit==1)
     {
-        data_1;
+        DATA_1;
         //scm_putchar(49);
     }
     else
     {
-        data_0;
+        DATA_0;
         //scm_putchar(48);
     }
-    wait10;
-    clk_1;
-    wait10;
-    clk_0;
-    wait10;
+    WAIT1000;
+    CLK_1;
+    WAIT1000;
+    CLK_0;
+    WAIT1000;
 }
 
 uint8_t i2c_send_data(uint8_t data)
 {
-    clk_0;
-    data_out;
-    data_0;
+    CLK_0;
+    DATA_OUT;
+    DATA_0;
     uint16_t div =128;
     uint8_t bit;
     for(uint8_t i = 0; i<8;i++)
@@ -57,40 +57,40 @@ uint8_t i2c_send_data(uint8_t data)
 
 uint8_t i2c_read_bit(void)
 {
-    clk_0;
-    data_in;
-    data_allowpullup;
-    data_1;
-    wait10;
-    clk_1;
-    wait10;
+    CLK_0;
+    DATA_IN;
+    DATA_ALLOWPULLUP;
+    DATA_1;
+    WAIT1000;
+    CLK_1;
+    WAIT1000;
     if(P1IN & BIT7)
     {
         scm_putchar(49);
-        wait10;
-        clk_0;
-        wait10;
-        data_deniepullup;
-        data_out;
+        WAIT1000;
+        CLK_0;
+        WAIT1000;
+        DATA_DENIEPULLUP;
+        DATA_OUT;
         return 1;
     }
     scm_putchar(48);
-    wait10;
-    clk_0;
-    wait10;
-    data_deniepullup;
-    data_out;
+    WAIT1000;
+    CLK_0;
+    WAIT1000;
+    DATA_DENIEPULLUP;
+    DATA_OUT;
     return 0;
 
 }
 
 uint8_t i2c_receive(void)
 {
-    clk_0;
-    data_in;
-    data_allowpullup;
-    data_1;
-    wait10;
+    CLK_0;
+    DATA_IN;
+    DATA_ALLOWPULLUP;
+    DATA_1;
+    WAIT1000;
     uint8_t temp=0;
     uint8_t mult=128;
     for(uint8_t j=0; j<8; j++)
@@ -99,51 +99,42 @@ uint8_t i2c_receive(void)
         mult = mult/2;
     }
     scm_putchar(9);
-    data_deniepullup;
-    data_out;
+    DATA_DENIEPULLUP;
+    DATA_OUT;
     return temp;
 }
 
 void i2c_ackn(void)
 {
-    clk_0;
-    data_in;
-    data_allowpullup;
-    data_1;
-    wait10;
-    clk_1;
+    CLK_0;
+    DATA_IN;
+    DATA_ALLOWPULLUP;
+    DATA_1;
+    WAIT1000;
+    CLK_1;
 
-    if(!(P1IN & BIT7))
-    {
-    scm_print("//ackn// ");
-    }
-    wait10;
-    clk_0;
+    if(!(P1IN & BIT7));
+    WAIT1000;
+    CLK_0;
 
-    data_deniepullup;
-    data_out;
+    DATA_DENIEPULLUP;
+    DATA_OUT;
 
 }
 
-
-
-
 uint8_t i2c_start_conv(uint8_t addr)
 {
-    clk_out;
-    data_out;
-    data_deniepullup;
-    clk_1;
-    data_1;
-    wait10;
-    data_0;
-    wait10;
-    clk_0;
-
+    CLK_OUT;
+    DATA_OUT;
+    DATA_DENIEPULLUP;
+    CLK_1;
+    DATA_1;
+    WAIT1000;
+    DATA_0;
+    WAIT1000;
+    CLK_0;
 
     uint8_t op = i2c_send_data(addr);
-
-
 
     if(op)
     {
