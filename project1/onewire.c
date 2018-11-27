@@ -22,50 +22,6 @@ void ow_init(void)
     ow_send_data(0b01011111);
 }
 
-void ow_test(char* buffer)
-{
-    ow_reset();
-    ow_send_data(0xCC);
-    ow_send_data(0x44);
-    PIN_IN;
-    PIN_ALLOWPULLUP;
-    PIN_PULLUP;
-    __delay_cycles(400000);
-    PIN_OUT;
-    PIN_DENIEPULLUP;
-    PIN_1;
-
-    ow_reset();
-    ow_send_data(0xCC);
-    ow_send_data(0xBE);
-    uint8_t temp_LSB = ow_read_data();
-    uint8_t temp_MSB = ow_read_data();
-
-    temp_MSB = temp_MSB << 4;
-    temp_MSB += temp_LSB >> 4;
-    temp_LSB &= 0b00001111;
-
-    uint8_t bit_mask = BIT3;
-    uint16_t nachkomma = 0;
-    uint16_t div = 500;
-    for(uint8_t i = 0; i<4;i++)
-    {
-        nachkomma = nachkomma + (div*(temp_LSB & bit_mask));
-        bit_mask = bit_mask >>1;
-        div = div>>1;
-    }
-
-    uint8_t len = scm_int2string(buffer, 4, temp_MSB);
-    buffer[len] = ',';
-    buffer[len+1] = '\0';
-    scm_print(buffer);
-    char buffer2[4];
-    scm_int2string(buffer2, 4, nachkomma);
-    scm_print(buffer2);
-
-    scm_putchar(9);
-}
-
 void ow_get_temperature(char* temp_buffer)
 {
     ow_reset();                 // reset-pulse by master and presence-pulse by slave
@@ -142,9 +98,6 @@ void ow_send_0(void)
     PIN_1;                  // send logical 0
     __delay_cycles(2);
 }
-
-
-
 
 void ow_send_data(uint8_t data)
 {
