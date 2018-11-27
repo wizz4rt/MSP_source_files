@@ -963,20 +963,20 @@ __reset_vector  0x0000fffe        0x2
  .debug_frame   0x000002d8      0x1a8 ./scm.o
  .debug_frame   0x00000480       0x60 ./spi.o
 
-.debug_str      0x00000000      0x7d4
+.debug_str      0x00000000      0x7d8
  *(.debug_str)
- .debug_str     0x00000000      0x547 ./LCD.o
-                                0x5a7 (size before relaxing)
- .debug_str     0x00000547       0x3f ./analog_t.o
-                                0x4c9 (size before relaxing)
- .debug_str     0x00000586       0xa3 ./i2c.o
-                                0x546 (size before relaxing)
- .debug_str     0x00000629       0x5b ./main.o
-                                0x58b (size before relaxing)
- .debug_str     0x00000684      0x114 ./scm.o
-                                0x5f8 (size before relaxing)
- .debug_str     0x00000798       0x3c ./spi.o
-                                0x4e5 (size before relaxing)
+ .debug_str     0x00000000      0x54b ./LCD.o
+                                0x5ab (size before relaxing)
+ .debug_str     0x0000054b       0x3f ./analog_t.o
+                                0x4cd (size before relaxing)
+ .debug_str     0x0000058a       0xa3 ./i2c.o
+                                0x54a (size before relaxing)
+ .debug_str     0x0000062d       0x5b ./main.o
+                                0x58f (size before relaxing)
+ .debug_str     0x00000688      0x114 ./scm.o
+                                0x5fc (size before relaxing)
+ .debug_str     0x0000079c       0x3c ./spi.o
+                                0x4e9 (size before relaxing)
 
 .debug_loc      0x00000000      0x690
  *(.debug_loc)
