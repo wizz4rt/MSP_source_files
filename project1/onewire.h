@@ -28,7 +28,7 @@ extern void ow_send_0(void);
 extern void ow_send_byte(uint8_t data);
 extern uint8_t ow_read_bit(void);
 extern uint8_t ow_read_byte(void);
-extern void ow_test(void);
+extern void ow_test(char* buffer);
 
 
 #endif /* ONEWIRE_H_ */

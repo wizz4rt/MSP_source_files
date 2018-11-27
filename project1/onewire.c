@@ -15,7 +15,7 @@ void ow_init(void)
     pin_1;
 }
 
-void ow_test(void)
+void ow_test(char* buffer)
 {
     ow_start_conv();
     ow_send_byte(0xCC);
@@ -27,14 +27,36 @@ void ow_test(void)
     pin_out;
     pin_deniepullup;
     pin_1;
+
     ow_start_conv();
     ow_send_byte(0xCC);
     ow_send_byte(0xBE);
-    ow_read_byte();
-    uint8_t temp = ow_read_byte();
-    char buffer[4];
-    scm_int2string(buffer, 4, temp);
+    uint8_t temp_LSB = ow_read_byte();
+    uint8_t temp_MSB = ow_read_byte();
+
+    temp_MSB = temp_MSB << 4;
+    temp_MSB += temp_LSB >> 4;
+    temp_LSB &= 0b00001111;
+
+    uint8_t bit_mask = BIT3;
+    uint16_t nachkomma = 0;
+    uint16_t div = 500;
+    for(uint8_t i = 0; i<4;i++)
+    {
+        nachkomma = nachkomma + (div*(temp_LSB & bit_mask));
+        bit_mask = bit_mask >>1;
+        div = div>>1;
+    }
+
+    uint8_t len = scm_int2string(buffer, 4, temp_MSB);
+    buffer[len] = ',';
+    buffer[len+1] = '\0';
     scm_print(buffer);
+    char buffer2[4];
+    scm_int2string(buffer2, 4, nachkomma);
+    scm_print(buffer2);
+
+    scm_putchar(9);
 }
 
 void ow_start_conv(void)
@@ -46,15 +68,12 @@ void ow_start_conv(void)
     pin_in;
     pin_allowpullup;
     pin_pullup;
-    while(P1IN & BIT4)
-    {
-        scm_putchar(46);
-    }
-    scm_print("ackn");
+    while(P1IN & BIT4);
+    //scm_print("ackn");
     pin_out;
     pin_deniepullup;
     pin_1;
-    __delay_cycles(240);
+    __delay_cycles(250);
 }
 
 void ow_send_1(void)
@@ -62,9 +81,9 @@ void ow_send_1(void)
     pin_out;
     pin_deniepullup;
     pin_0;
-    __delay_cycles(2);
+    __delay_cycles(10);
     pin_1;
-    __delay_cycles(60);
+    __delay_cycles(80);
 }
 
 void ow_send_0(void)
@@ -72,8 +91,9 @@ void ow_send_0(void)
     pin_out;
     pin_deniepullup;
     pin_0;
-    __delay_cycles(60);
+    __delay_cycles(80);
     pin_1;
+    __delay_cycles(2);
 }
 
 
@@ -105,7 +125,6 @@ uint8_t ow_read_bit(void)
     pin_in;
     pin_allowpullup;
     pin_pullup;
-    __delay_cycles(20);
     uint8_t bit;
     if(P1IN & BIT4)
     {
@@ -119,6 +138,7 @@ uint8_t ow_read_bit(void)
     pin_deniepullup;
     pin_1;
     __delay_cycles(60);
+    return bit;
 }
 
 uint8_t ow_read_byte(void)
@@ -128,7 +148,7 @@ uint8_t ow_read_byte(void)
     for(uint8_t i = 0;i<8;i++)
     {
         data = data + (mul*(ow_read_bit()));
-        mul = mul>>2;
+        mul = mul<<1;
     }
     return data;
 }

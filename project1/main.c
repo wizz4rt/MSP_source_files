@@ -37,12 +37,15 @@ int main(void)
 
 
 	char analog_temp[7];
+	char ow_buffer[7];
 	uint16_t t = 0;
 
 	while(1)
 	{
-	    ow_test();
-	    __delay_cycles(1000000);
+	    ow_test(ow_buffer);
+	    //scm_print(ow_buffer);
+	    scm_print("GRAD CELSIUS\r");
+	    __delay_cycles(10);
 	}
 
 	while(0)
