@@ -10,29 +10,36 @@ void ow_init(void)
 {
     P1SEL &= ~BIT4;
     P1SEL2 &= ~BIT4;
-    pin_out;
-    pin_deniepullup;
-    pin_1;
+    PIN_OUT;
+    PIN_DENIEPULLUP;
+    PIN_1;
+
+    ow_reset();
+    ow_send_data(0xCC);
+    ow_send_data(0x4E);
+    ow_send_data(0xFF);
+    ow_send_data(0xFF);
+    ow_send_data(0b01011111);
 }
 
 void ow_test(char* buffer)
 {
-    ow_start_conv();
-    ow_send_byte(0xCC);
-    ow_send_byte(0x44);
-    pin_in;
-    pin_allowpullup;
-    pin_pullup;
-    __delay_cycles(1000000);
-    pin_out;
-    pin_deniepullup;
-    pin_1;
+    ow_reset();
+    ow_send_data(0xCC);
+    ow_send_data(0x44);
+    PIN_IN;
+    PIN_ALLOWPULLUP;
+    PIN_PULLUP;
+    __delay_cycles(400000);
+    PIN_OUT;
+    PIN_DENIEPULLUP;
+    PIN_1;
 
-    ow_start_conv();
-    ow_send_byte(0xCC);
-    ow_send_byte(0xBE);
-    uint8_t temp_LSB = ow_read_byte();
-    uint8_t temp_MSB = ow_read_byte();
+    ow_reset();
+    ow_send_data(0xCC);
+    ow_send_data(0xBE);
+    uint8_t temp_LSB = ow_read_data();
+    uint8_t temp_MSB = ow_read_data();
 
     temp_MSB = temp_MSB << 4;
     temp_MSB += temp_LSB >> 4;
@@ -50,59 +57,99 @@ void ow_test(char* buffer)
 
     uint8_t len = scm_int2string(buffer, 4, temp_MSB);
     buffer[len] = ',';
-
+    buffer[len+1] = '\0';
+    scm_print(buffer);
     char buffer2[4];
     scm_int2string(buffer2, 4, nachkomma);
+    scm_print(buffer2);
 
-    buffer[len+1] = buffer2[0];
-    buffer[len+2] = buffer2[1];
-    buffer[len+3] = '\0';
+    scm_putchar(9);
 }
 
-void ow_start_conv(void)
+void ow_get_temperature(char* temp_buffer)
 {
-    pin_out;
-    pin_deniepullup;
-    pin_0;
-    __delay_cycles(500);
-    pin_in;
-    pin_allowpullup;
-    pin_pullup;
-    while(P1IN & BIT4);
-    //scm_print("ackn");
-    pin_out;
-    pin_deniepullup;
-    pin_1;
-    __delay_cycles(250);
+    ow_reset();                 // reset-pulse by master and presence-pulse by slave
+    ow_send_data(0xCC);
+    ow_send_data(0x44);
+    PIN_IN;
+    PIN_ALLOWPULLUP;
+    PIN_PULLUP;
+    __delay_cycles(400000);
+    PIN_OUT;
+    PIN_DENIEPULLUP;
+    PIN_1;
+
+    ow_reset();
+    ow_send_data(0xCC);
+    ow_send_data(0xBE);
+    uint8_t temp_LSB = ow_read_data();
+    uint8_t temp_MSB = ow_read_data();
+
+    uint16_t temp_dec = (ow_calculate_predec(temp_MSB, temp_LSB)*100) + ow_calculate_dec(temp_LSB);
+
+    scm_decimal2string(temp_buffer, 8, temp_dec, 2);
+}
+
+uint8_t ow_calculate_predec(uint8_t msb, uint8_t lsb)
+{
+    msb = msb<<4;       // last 4 bits of MSB as first bits of predecimal
+    lsb = lsb>>4;       // first 4 bits of LSB as last bits of predecimal
+    return (msb|lsb);   // return predecimal
+}
+
+uint8_t ow_calculate_dec(uint8_t lsb)
+{
+    uint16_t dec = 0;               // decimal
+    if(lsb & BIT3){dec += 50;}
+    if(lsb & BIT2){dec += 25;}
+    if(lsb & BIT1){dec += 13;}
+    if(lsb & BIT0){dec += 6;}
+    return (uint8_t) dec;        // return two decimal-digits
+}
+
+void ow_reset(void)
+{
+    PIN_OUT;
+    PIN_DENIEPULLUP;
+    PIN_0;
+    __delay_cycles(500);    // reset pulse for 500µs
+    PIN_IN;
+    PIN_ALLOWPULLUP;
+    PIN_PULLUP;
+    while(P1IN & BIT4);     // wait for presence-pulse by slave
+    PIN_OUT;
+    PIN_DENIEPULLUP;
+    PIN_1;
+    __delay_cycles(250);    // wait for sequence to end
 }
 
 void ow_send_1(void)
 {
-    pin_out;
-    pin_deniepullup;
-    pin_0;
+    PIN_OUT;
+    PIN_DENIEPULLUP;
+    PIN_0;                  // initiate send-slot
     __delay_cycles(10);
-    pin_1;
+    PIN_1;                  // send logical 1
     __delay_cycles(80);
 }
 
 void ow_send_0(void)
 {
-    pin_out;
-    pin_deniepullup;
-    pin_0;
+    PIN_OUT;
+    PIN_DENIEPULLUP;
+    PIN_0;                  // initiate send-slot
     __delay_cycles(80);
-    pin_1;
+    PIN_1;                  // send logical 0
     __delay_cycles(2);
 }
 
 
 
 
-void ow_send_byte(uint8_t data)
+void ow_send_data(uint8_t data)
 {
     uint8_t div = 1;
-    for(uint8_t i=0; i<8;i++)
+    for(uint8_t i=0; i<8; i++)
     {
         if(data & div)
         {
@@ -118,15 +165,15 @@ void ow_send_byte(uint8_t data)
 
 uint8_t ow_read_bit(void)
 {
-    pin_out;
-    pin_deniepullup;
-    pin_0;
+    PIN_OUT;
+    PIN_DENIEPULLUP;
+    PIN_0;              //initiate read-slot
     __delay_cycles(5);
-    pin_in;
-    pin_allowpullup;
-    pin_pullup;
+    PIN_IN;
+    PIN_ALLOWPULLUP;
+    PIN_PULLUP;
     uint8_t bit;
-    if(P1IN & BIT4)
+    if(P1IN & BIT4)     //read a logical 1?
     {
         bit = 1;
     }
@@ -134,14 +181,14 @@ uint8_t ow_read_bit(void)
     {
         bit = 0;
     }
-    pin_out;
-    pin_deniepullup;
-    pin_1;
-    __delay_cycles(60);
+    PIN_OUT;
+    PIN_DENIEPULLUP;
+    PIN_1;
+    __delay_cycles(60); //wait for read-slot to end
     return bit;
 }
 
-uint8_t ow_read_byte(void)
+uint8_t ow_read_data(void)
 {
     uint8_t mul = 1;
     uint8_t data = 0;

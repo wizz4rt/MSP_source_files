@@ -65,7 +65,7 @@ void spi_get_temperature(char* buffer)
     CE_1;
     temp_LSB = spi_receive_data(0x01);
     CE_0;
-    __delay_cycles(10);
+    __delay_cycles(2);
 
     uint8_t len = scm_int2string(buffer, 10, temp_MSB);
     buffer[len] = ',';

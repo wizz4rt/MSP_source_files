@@ -43,7 +43,7 @@ int main(void)
         analog_get_temperature(analog_temp_string);
 	    spi_get_temperature(spi_temp_string);
 	    i2c_get_temperature_MSB(i2c_temp_string);
-        ow_test(onewire_temp_string);
+        ow_get_temperature(onewire_temp_string);
 
 
 	    //print results to LCD
@@ -63,6 +63,7 @@ void print_temps(void)
     LCD_set_col(30);
 
     LCD_print("Analog: ");
+    LCD_set_col(90);
     LCD_print(analog_temp_string);
     LCD_print("C°     ");
 
@@ -70,6 +71,7 @@ void print_temps(void)
     LCD_set_page(3);
     LCD_set_col(30);
     LCD_print("SPI: ");
+    LCD_set_col(90);
     LCD_print(spi_temp_string);
     LCD_print("C°     ");
 
@@ -77,12 +79,14 @@ void print_temps(void)
     LCD_set_page(4);
     LCD_set_col(30);
     LCD_print("I²C: ");
+    LCD_set_col(90);
     LCD_print(i2c_temp_string);
     LCD_print("C°     ");
 
     LCD_set_page(5);
     LCD_set_col(30);
     LCD_print("OneWire: ");
+    LCD_set_col(90);
     LCD_print(onewire_temp_string);
     LCD_print("C°     ");
 
