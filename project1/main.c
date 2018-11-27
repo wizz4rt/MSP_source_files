@@ -42,7 +42,7 @@ int main(void)
 	    //read temperatures and write them in corresponding buffers
         analog_get_temperature(analog_temp_string);
 	    spi_get_temperature(spi_temp_string);
-	    i2c_get_temperature_MSB(i2c_temp_string);
+	    i2c_get_temperature(i2c_temp_string);
         ow_get_temperature(onewire_temp_string);
 
 
