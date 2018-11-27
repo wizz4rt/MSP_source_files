@@ -13,6 +13,13 @@ void ow_init(void)
     PIN_OUT;
     PIN_DENIEPULLUP;
     PIN_1;
+
+    ow_reset();
+    ow_send_data(0xCC);
+    ow_send_data(0x4E);
+    ow_send_data(0xFF);
+    ow_send_data(0xFF);
+    ow_send_data(0b01011111);
 }
 
 void ow_test(char* buffer)
@@ -23,7 +30,7 @@ void ow_test(char* buffer)
     PIN_IN;
     PIN_ALLOWPULLUP;
     PIN_PULLUP;
-    __delay_cycles(1000000);
+    __delay_cycles(400000);
     PIN_OUT;
     PIN_DENIEPULLUP;
     PIN_1;
@@ -67,7 +74,7 @@ void ow_get_temperature(char* temp_buffer)
     PIN_IN;
     PIN_ALLOWPULLUP;
     PIN_PULLUP;
-    __delay_cycles(1000000);
+    __delay_cycles(400000);
     PIN_OUT;
     PIN_DENIEPULLUP;
     PIN_1;
@@ -93,11 +100,11 @@ uint8_t ow_calculate_predec(uint8_t msb, uint8_t lsb)
 uint8_t ow_calculate_dec(uint8_t lsb)
 {
     uint16_t dec = 0;               // decimal
-    if(lsb & BIT3){dec += 500;}
-    if(lsb & BIT2){dec += 250;}
-    if(lsb & BIT1){dec += 125;}
-    if(lsb & BIT0){dec += 62;}
-    return (uint8_t) dec/10;        // return two decimal-digits
+    if(lsb & BIT3){dec += 50;}
+    if(lsb & BIT2){dec += 25;}
+    if(lsb & BIT1){dec += 13;}
+    if(lsb & BIT0){dec += 6;}
+    return (uint8_t) dec;        // return two decimal-digits
 }
 
 void ow_reset(void)
