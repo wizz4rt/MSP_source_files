@@ -49,7 +49,6 @@ int main(void)
 	    //print results to LCD
 	    print_temps();
 	}
-
 	return 0;
 }
 
