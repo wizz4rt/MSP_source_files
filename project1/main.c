@@ -37,13 +37,13 @@ int main(void)
 
 
 	char analog_temp[7];
-	char ow_buffer[7];
+	char ow_buffer[8];
 	uint16_t t = 0;
 
 	while(1)
 	{
-	    ow_test(ow_buffer);
-	    //scm_print(ow_buffer);
+	    ow_get_temperature(ow_buffer);
+	    scm_print(ow_buffer);
 	    scm_print("GRAD CELSIUS\r");
 	    __delay_cycles(10);
 	}
