@@ -42,7 +42,7 @@ int main(void)
 
 	while(1)
 	{
-	    i2c_get_temperature2(i2c_buffer);
+	    i2c_get_temperature(i2c_buffer);
 	    scm_print(i2c_buffer);
 	    scm_print("\r");
 	    __delay_cycles(10000);

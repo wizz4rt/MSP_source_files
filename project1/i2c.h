@@ -28,17 +28,12 @@
 
 
 void i2c_init(void);
-void i2c_send(uint8_t trans);
-uint8_t i2c_start_conv(uint8_t data);
-void i2c_set(uint8_t addr, uint8_t data);
 void i2c_send_bit(uint8_t bit);
 uint8_t i2c_receive(void);
-uint8_t i2c_send_data(uint8_t data);
 void i2c_ackn(void);
 uint8_t i2c_read_bit(void);
-void i2c_get_temperature(void);
-void i2c_get_temperature2(char* temp_buffer);
-void i2c_send_data2(uint8_t data);
+void i2c_get_temperature(char* temp_buffer);
+void i2c_send_data(uint8_t data);
 void i2c_send_startbit(void);
 
 
