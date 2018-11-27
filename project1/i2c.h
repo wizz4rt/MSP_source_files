@@ -5,7 +5,6 @@
  *      Author: Jan-Niclas
  */
 //
-
 #include <stdint.h>
 #include <msp430g2553.h>
 #include <scm.h>
@@ -29,28 +28,13 @@
 
 
 void i2c_init(void);
-//setup all pins and configure the sensor for continuously measurement
-
 void i2c_send_bit(uint8_t bit);
-//transmit a given logical value to the slave
-
 uint8_t i2c_receive(void);
-//read whole data-byte sent by the slave and give it back
-
 void i2c_ackn(void);
-//wait for the slave to acknowledge
-
 uint8_t i2c_read_bit(void);
-//read one logical value from the data line and give it back
-
 void i2c_get_temperature(char* temp_buffer);
-//read temperature from sensor and store it in buffer as decimal
-
 void i2c_send_data(uint8_t data);
-//transmit given data-byte to slave
-
 void i2c_send_startbit(void);
-//initiate interaction by sending startbit
 
 
 #endif /* I2C_H_ */

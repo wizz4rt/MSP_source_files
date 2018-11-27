@@ -5,6 +5,7 @@
  *      Author: Jan-Niclas
  */
 
+
 #include "i2c.h"
 
 
@@ -42,6 +43,7 @@ void i2c_send_bit(uint8_t bit)
     CLK_0;
     WAIT1000;
 }
+
 
 uint8_t i2c_read_bit(void)
 {
@@ -126,44 +128,40 @@ void i2c_send_data(uint8_t data)
     DATA_OUT;
     DATA_0;
     uint8_t div =128;
-    for(uint8_t i = 0; i<8; i++)        //send byte, bit by bit
+    for(uint8_t i = 0; i<8; i++)
     {
         if(div & data)
         {
-            i2c_send_bit(1);            //send logical 1
+            i2c_send_bit(1);
         }
         else
         {
-            i2c_send_bit(0);            //send logical 0
+            i2c_send_bit(0);
         }
-        div = div>>1;                   //divide div by 2
+        div = div>>1;
     }
 }
 
 void i2c_get_temperature(char* temp_buffer)
 {
-    i2c_send_startbit();                //initiate interaction
-    i2c_send_data(0b10010001);         //initiate read from temperature-register
+    i2c_send_startbit();
+    i2c_send_data2(0b10010001);
     i2c_ackn();
-    uint8_t temp_MSB = i2c_receive();   //get MSB of temperature
+    uint8_t temp_MSB = i2c_receive();
     i2c_send_bit(0);
-    uint8_t temp_LSB = i2c_receive();   //get LSB of temperature
+    uint8_t temp_LSB = i2c_receive();
 
-    uint8_t predec_len = scm_int2string(temp_buffer, 8, temp_MSB);  //write predecimal-digits to buffer
-
-    //decimal-section
-    temp_buffer[predec_len] = ',';          //set comma
-    if(temp_LSB & BIT7)                     //is LS-Bit logical 1?
+    uint8_t predec_len = scm_int2string(temp_buffer, 8, temp_MSB);
+    temp_buffer[predec_len] = ',';
+    if(temp_LSB & BIT7)
     {
-        //write 50 as decimal-digits
         temp_buffer[predec_len+1] = '5';
         temp_buffer[predec_len+2] = '0';
     }
     else
     {
-        //write 00 as decimal digits
         temp_buffer[predec_len+1] = '0';
         temp_buffer[predec_len+2] = '0';
     }
-    temp_buffer[predec_len+3] = '\0';       //close buffer with "null"
+    temp_buffer[predec_len+3] = '\0';
 }
