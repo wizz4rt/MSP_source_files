@@ -145,7 +145,7 @@ void i2c_send_data(uint8_t data)
 void i2c_get_temperature(char* temp_buffer)
 {
     i2c_send_startbit();
-    i2c_send_data2(0b10010001);
+    i2c_send_data(0b10010001);
     i2c_ackn();
     uint8_t temp_MSB = i2c_receive();
     i2c_send_bit(0);
