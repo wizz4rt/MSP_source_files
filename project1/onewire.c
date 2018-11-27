@@ -59,7 +59,44 @@ void ow_test(char* buffer)
     scm_putchar(9);
 }
 
-void ow_start_conv(void)
+void ow_get_temperature(char* buffer)
+{
+    ow_reset();
+    ow_send_byte(0xCC);
+    ow_send_byte(0x44);
+    pin_in;
+    pin_allowpullup;
+    pin_pullup;
+    __delay_cycles(1000000);
+    pin_out;
+    pin_deniepullup;
+    pin_1;
+
+    ow_reset();
+    ow_send_data(0xCC);
+    ow_send_data(0xBE);
+    uint8_t temp_LSB = ow_read_byte();
+    uint8_t temp_MSB = ow_read_byte();
+}
+
+uint8_t ow_conv_msb(uint8_t msb, uint8_t lsb)
+{
+    msb = msb<<4;       // last 4 bits of MSB as first bits of predecimal
+    lsb = lsb>>4;       // first 4 bits of LSB as last bits of predecimal
+    return (msb|lsb);   // return predecimal
+}
+
+uint8_t ow_conv_lsb(uint8_t lsb)
+{
+    uint16_t dec = 0;
+    if(lsb & BIT3){dec += 500;}
+    if(lsb & BIT2){dec += 250;}
+    if(lsb & BIT1){dec += 125;}
+    if(lsb & BIT0){dec += 62;}
+    return (uint8_t) dec/10;
+}
+
+void ow_reset(void)
 {
     pin_out;
     pin_deniepullup;
@@ -99,7 +136,7 @@ void ow_send_0(void)
 
 
 
-void ow_send_byte(uint8_t data)
+void ow_send_data(uint8_t data)
 {
     uint8_t div = 1;
     for(uint8_t i=0; i<8;i++)
@@ -141,7 +178,7 @@ uint8_t ow_read_bit(void)
     return bit;
 }
 
-uint8_t ow_read_byte(void)
+uint8_t ow_read_data(void)
 {
     uint8_t mul = 1;
     uint8_t data = 0;
