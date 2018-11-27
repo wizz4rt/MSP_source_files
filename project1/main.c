@@ -48,6 +48,7 @@ int main(void)
 
 	    //print results to LCD
 	    print_temps();
+	    nonsense();
 	}
 	return 0;
 }
@@ -85,6 +86,10 @@ void print_temps(void)
     LCD_print(onewire_temp_string);
     LCD_print("C°     ");
 
+
+}
+void nonsense(void)
+{
     //*nonsense*
     LCD_set_page(6);
     LCD_set_col(30-nonsense3);
@@ -94,8 +99,8 @@ void print_temps(void)
     LCD_print(nonsense2);
     nonsense3++;
     if(nonsense3 >= 26){nonsense3 = 0;}
-}
 
+}
 
 void clock_init(void)
 {
